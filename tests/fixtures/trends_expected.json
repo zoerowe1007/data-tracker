@@ -1,0 +1,863 @@
+{
+ "today": {
+  "gone": [
+   "WMT"
+  ],
+  "latestDate": "2026-11-16",
+  "moves": [
+   {
+    "item_id": "TSN",
+    "new": 59.0,
+    "old": 66.0,
+    "pct": -10.606060606060606
+   },
+   {
+    "item_id": "dallas",
+    "new": 59.0,
+    "old": 66.0,
+    "pct": -10.606060606060606
+   },
+   {
+    "item_id": "fortworth",
+    "new": 60.0,
+    "old": 67.0,
+    "pct": -10.44776119402985
+   },
+   {
+    "item_id": "arlington",
+    "new": 61.0,
+    "old": 68.0,
+    "pct": -10.294117647058822
+   },
+   {
+    "item_id": "denton",
+    "new": 62.0,
+    "old": 69.0,
+    "pct": -10.144927536231885
+   },
+   {
+    "item_id": "mckinney",
+    "new": 63.0,
+    "old": 70.0,
+    "pct": -10.0
+   },
+   {
+    "item_id": "bentonville",
+    "new": 64.0,
+    "old": 71.0,
+    "pct": -9.859154929577464
+   },
+   {
+    "item_id": "fayetteville",
+    "new": 65.0,
+    "old": 72.0,
+    "pct": -9.722222222222223
+   },
+   {
+    "item_id": "fortsmith",
+    "new": 66.0,
+    "old": 73.0,
+    "pct": -9.58904109589041
+   },
+   {
+    "item_id": "littlerock",
+    "new": 67.0,
+    "old": 74.0,
+    "pct": -9.45945945945946
+   }
+  ],
+  "new": [
+   "JPM"
+  ]
+ },
+ "trends": {
+  "biggest": {
+   "date": "2026-11-13",
+   "item": "Walmart",
+   "item_id": "WMT",
+   "pct": 20.454545454545457
+  },
+  "bySource": [
+   {
+    "mean": -0.04293754920689907,
+    "n": 15,
+    "source": "stocks"
+   },
+   {
+    "mean": -0.25860088985088986,
+    "n": 12,
+    "source": "crypto"
+   },
+   {
+    "mean": -1.5309793199604513,
+    "n": 12,
+    "source": "weather"
+   }
+  ],
+  "daily": [
+   {
+    "date": "2026-11-11",
+    "maxAbs": 6.0,
+    "maxItemId": "WMT",
+    "maxPct": 6.0,
+    "meanAbs": 2.778386596603045,
+    "n": 39
+   },
+   {
+    "date": "2026-11-12",
+    "maxAbs": 16.9811320754717,
+    "maxItemId": "WMT",
+    "maxPct": -16.9811320754717,
+    "meanAbs": 10.572237780795065,
+    "n": 27
+   },
+   {
+    "date": "2026-11-13",
+    "maxAbs": 20.454545454545457,
+    "maxItemId": "WMT",
+    "maxPct": 20.454545454545457,
+    "meanAbs": 8.30591414991279,
+    "n": 39
+   },
+   {
+    "date": "2026-11-14",
+    "maxAbs": 16.9811320754717,
+    "maxItemId": "WMT",
+    "maxPct": 16.9811320754717,
+    "meanAbs": 7.860013509720084,
+    "n": 38
+   },
+   {
+    "date": "2026-11-15",
+    "maxAbs": 9.67741935483871,
+    "maxItemId": "WMT",
+    "maxPct": -9.67741935483871,
+    "meanAbs": 4.7333332527316285,
+    "n": 38
+   },
+   {
+    "date": "2026-11-16",
+    "maxAbs": 10.606060606060606,
+    "maxItemId": "TSN",
+    "maxPct": -10.606060606060606,
+    "meanAbs": 5.961675265550546,
+    "n": 38
+   }
+  ],
+  "dailyGap": [
+   {
+    "date": "2026-11-10",
+    "gap": 11.0,
+    "n": 12
+   },
+   {
+    "date": "2026-11-11",
+    "gap": 11.0,
+    "n": 12
+   },
+   {
+    "date": "2026-11-12",
+    "gap": 11.0,
+    "n": 12
+   },
+   {
+    "date": "2026-11-13",
+    "gap": 11.0,
+    "n": 12
+   },
+   {
+    "date": "2026-11-14",
+    "gap": 11.0,
+    "n": 12
+   },
+   {
+    "date": "2026-11-15",
+    "gap": 11.0,
+    "n": 12
+   },
+   {
+    "date": "2026-11-16",
+    "gap": 11.0,
+    "n": 12
+   }
+  ],
+  "days": [
+   "2026-11-10",
+   "2026-11-11",
+   "2026-11-12",
+   "2026-11-13",
+   "2026-11-14",
+   "2026-11-15",
+   "2026-11-16"
+  ],
+  "faller": {
+   "first": 60.0,
+   "item": "Tyson Foods",
+   "item_id": "TSN",
+   "last": 59.0,
+   "pct": -1.6666666666666667,
+   "source": "stocks"
+  },
+  "items": 39,
+  "riser": {
+   "first": 50.0,
+   "item": "Walmart",
+   "item_id": "WMT",
+   "last": 56.0,
+   "pct": 12.0,
+   "source": "stocks"
+  },
+  "sinceFirst": [
+   {
+    "first": 50.0,
+    "item": "Walmart",
+    "item_id": "WMT",
+    "last": 56.0,
+    "pct": 12.0,
+    "source": "stocks"
+   },
+   {
+    "first": 1200.0,
+    "item": "Avalanche",
+    "item_id": "avalanche-2",
+    "last": 1199.0,
+    "pct": -0.08333333333333334,
+    "source": "crypto"
+   },
+   {
+    "first": 1100.0,
+    "item": "Stellar",
+    "item_id": "stellar",
+    "last": 1099.0,
+    "pct": -0.09090909090909091,
+    "source": "crypto"
+   },
+   {
+    "first": 1000.0,
+    "item": "Litecoin",
+    "item_id": "litecoin",
+    "last": 999.0,
+    "pct": -0.1,
+    "source": "crypto"
+   },
+   {
+    "first": 900.0,
+    "item": "Chainlink",
+    "item_id": "chainlink",
+    "last": 899.0,
+    "pct": -0.1111111111111111,
+    "source": "crypto"
+   },
+   {
+    "first": 800.0,
+    "item": "TRON",
+    "item_id": "tron",
+    "last": 799.0,
+    "pct": -0.125,
+    "source": "crypto"
+   },
+   {
+    "first": 700.0,
+    "item": "Cardano",
+    "item_id": "cardano",
+    "last": 699.0,
+    "pct": -0.14285714285714285,
+    "source": "crypto"
+   },
+   {
+    "first": 600.0,
+    "item": "Dogecoin",
+    "item_id": "dogecoin",
+    "last": 599.0,
+    "pct": -0.16666666666666669,
+    "source": "crypto"
+   },
+   {
+    "first": 500.0,
+    "item": "Solana",
+    "item_id": "solana",
+    "last": 499.0,
+    "pct": -0.2,
+    "source": "crypto"
+   },
+   {
+    "first": 400.0,
+    "item": "BNB",
+    "item_id": "binancecoin",
+    "last": 399.0,
+    "pct": -0.25,
+    "source": "crypto"
+   },
+   {
+    "first": 300.0,
+    "item": "XRP",
+    "item_id": "ripple",
+    "last": 299.0,
+    "pct": -0.33333333333333337,
+    "source": "crypto"
+   },
+   {
+    "first": 200.0,
+    "item": "Ethereum",
+    "item_id": "ethereum",
+    "last": 199.0,
+    "pct": -0.5,
+    "source": "crypto"
+   },
+   {
+    "first": 190.0,
+    "item": "J.B. Hunt",
+    "item_id": "JBHT",
+    "last": 189.0,
+    "pct": -0.5263157894736842,
+    "source": "stocks"
+   },
+   {
+    "first": 180.0,
+    "item": "McKesson",
+    "item_id": "MCK",
+    "last": 179.0,
+    "pct": -0.5555555555555556,
+    "source": "stocks"
+   },
+   {
+    "first": 170.0,
+    "item": "Kimberly-Clark",
+    "item_id": "KMB",
+    "last": 169.0,
+    "pct": -0.5882352941176471,
+    "source": "stocks"
+   },
+   {
+    "first": 160.0,
+    "item": "ExxonMobil",
+    "item_id": "XOM",
+    "last": 159.0,
+    "pct": -0.625,
+    "source": "stocks"
+   },
+   {
+    "first": 150.0,
+    "item": "Toyota Motor",
+    "item_id": "TM",
+    "last": 149.0,
+    "pct": -0.6666666666666667,
+    "source": "stocks"
+   },
+   {
+    "first": 140.0,
+    "item": "Wells Fargo",
+    "item_id": "WFC",
+    "last": 139.0,
+    "pct": -0.7142857142857143,
+    "source": "stocks"
+   },
+   {
+    "first": 130.0,
+    "item": "Charles Schwab",
+    "item_id": "SCHW",
+    "last": 129.0,
+    "pct": -0.7692307692307693,
+    "source": "stocks"
+   },
+   {
+    "first": 120.0,
+    "item": "JPMorgan Chase",
+    "item_id": "JPM",
+    "last": 119.0,
+    "pct": -0.8333333333333334,
+    "source": "stocks"
+   },
+   {
+    "first": 110.0,
+    "item": "Capital One",
+    "item_id": "COF",
+    "last": 109.0,
+    "pct": -0.9090909090909091,
+    "source": "stocks"
+   },
+   {
+    "first": 100.0,
+    "item": "Texas Instruments",
+    "item_id": "TXN",
+    "last": 99.0,
+    "pct": -1.0,
+    "source": "stocks"
+   },
+   {
+    "first": 100.0,
+    "item": "Bitcoin",
+    "item_id": "bitcoin",
+    "last": 99.0,
+    "pct": -1.0,
+    "source": "crypto"
+   },
+   {
+    "first": 90.0,
+    "item": "Southwest Airlines",
+    "item_id": "LUV",
+    "last": 89.0,
+    "pct": -1.1111111111111112,
+    "source": "stocks"
+   },
+   {
+    "first": 80.0,
+    "item": "American Airlines",
+    "item_id": "AAL",
+    "last": 79.0,
+    "pct": -1.25,
+    "source": "stocks"
+   },
+   {
+    "first": 71.0,
+    "item": "Houston, TX",
+    "item_id": "houston",
+    "last": 70.0,
+    "pct": -1.4084507042253522,
+    "source": "weather"
+   },
+   {
+    "first": 70.0,
+    "item": "AT&T",
+    "item_id": "T",
+    "last": 69.0,
+    "pct": -1.4285714285714286,
+    "source": "stocks"
+   },
+   {
+    "first": 70.0,
+    "item": "Oklahoma City, OK",
+    "item_id": "okc",
+    "last": 69.0,
+    "pct": -1.4285714285714286,
+    "source": "weather"
+   },
+   {
+    "first": 69.0,
+    "item": "Tulsa, OK",
+    "item_id": "tulsa",
+    "last": 68.0,
+    "pct": -1.4492753623188406,
+    "source": "weather"
+   },
+   {
+    "first": 68.0,
+    "item": "Little Rock, AR",
+    "item_id": "littlerock",
+    "last": 67.0,
+    "pct": -1.4705882352941175,
+    "source": "weather"
+   },
+   {
+    "first": 67.0,
+    "item": "Fort Smith, AR",
+    "item_id": "fortsmith",
+    "last": 66.0,
+    "pct": -1.4925373134328357,
+    "source": "weather"
+   },
+   {
+    "first": 66.0,
+    "item": "Fayetteville, AR",
+    "item_id": "fayetteville",
+    "last": 65.0,
+    "pct": -1.5151515151515151,
+    "source": "weather"
+   },
+   {
+    "first": 65.0,
+    "item": "Bentonville, AR",
+    "item_id": "bentonville",
+    "last": 64.0,
+    "pct": -1.5384615384615385,
+    "source": "weather"
+   },
+   {
+    "first": 64.0,
+    "item": "McKinney, TX",
+    "item_id": "mckinney",
+    "last": 63.0,
+    "pct": -1.5625,
+    "source": "weather"
+   },
+   {
+    "first": 63.0,
+    "item": "Denton, TX",
+    "item_id": "denton",
+    "last": 62.0,
+    "pct": -1.5873015873015872,
+    "source": "weather"
+   },
+   {
+    "first": 62.0,
+    "item": "Arlington, TX",
+    "item_id": "arlington",
+    "last": 61.0,
+    "pct": -1.6129032258064515,
+    "source": "weather"
+   },
+   {
+    "first": 61.0,
+    "item": "Fort Worth, TX",
+    "item_id": "fortworth",
+    "last": 60.0,
+    "pct": -1.639344262295082,
+    "source": "weather"
+   },
+   {
+    "first": 60.0,
+    "item": "Tyson Foods",
+    "item_id": "TSN",
+    "last": 59.0,
+    "pct": -1.6666666666666667,
+    "source": "stocks"
+   },
+   {
+    "first": 60.0,
+    "item": "Dallas, TX",
+    "item_id": "dallas",
+    "last": 59.0,
+    "pct": -1.6666666666666667,
+    "source": "weather"
+   }
+  ],
+  "spread": {
+   "cities": [
+    {
+     "item": "Houston, TX",
+     "temp": 70.0
+    },
+    {
+     "item": "Oklahoma City, OK",
+     "temp": 69.0
+    },
+    {
+     "item": "Tulsa, OK",
+     "temp": 68.0
+    },
+    {
+     "item": "Little Rock, AR",
+     "temp": 67.0
+    },
+    {
+     "item": "Fort Smith, AR",
+     "temp": 66.0
+    },
+    {
+     "item": "Fayetteville, AR",
+     "temp": 65.0
+    },
+    {
+     "item": "Bentonville, AR",
+     "temp": 64.0
+    },
+    {
+     "item": "McKinney, TX",
+     "temp": 63.0
+    },
+    {
+     "item": "Denton, TX",
+     "temp": 62.0
+    },
+    {
+     "item": "Arlington, TX",
+     "temp": 61.0
+    },
+    {
+     "item": "Fort Worth, TX",
+     "temp": 60.0
+    },
+    {
+     "item": "Dallas, TX",
+     "temp": 59.0
+    }
+   ],
+   "coldest": {
+    "item": "Dallas, TX",
+    "temp": 59.0
+   },
+   "date": "2026-11-16",
+   "gap": 11.0,
+   "hottest": {
+    "item": "Houston, TX",
+    "temp": 70.0
+   },
+   "n": 12
+  },
+  "volatility": [
+   {
+    "item": "Walmart",
+    "item_id": "WMT",
+    "n": 5,
+    "sd": 16.343685143027017,
+    "source": "stocks"
+   },
+   {
+    "item": "Dallas, TX",
+    "item_id": "dallas",
+    "n": 6,
+    "sd": 13.353908339406015,
+    "source": "weather"
+   },
+   {
+    "item": "Fort Worth, TX",
+    "item_id": "fortworth",
+    "n": 6,
+    "sd": 13.137995186703327,
+    "source": "weather"
+   },
+   {
+    "item": "Arlington, TX",
+    "item_id": "arlington",
+    "n": 6,
+    "sd": 12.929020726333972,
+    "source": "weather"
+   },
+   {
+    "item": "Denton, TX",
+    "item_id": "denton",
+    "n": 6,
+    "sd": 12.726652581758422,
+    "source": "weather"
+   },
+   {
+    "item": "Tyson Foods",
+    "item_id": "TSN",
+    "n": 5,
+    "sd": 12.664431691282271,
+    "source": "stocks"
+   },
+   {
+    "item": "McKinney, TX",
+    "item_id": "mckinney",
+    "n": 6,
+    "sd": 12.5305794675944,
+    "source": "weather"
+   },
+   {
+    "item": "Bentonville, AR",
+    "item_id": "bentonville",
+    "n": 6,
+    "sd": 12.34050952801154,
+    "source": "weather"
+   },
+   {
+    "item": "Fayetteville, AR",
+    "item_id": "fayetteville",
+    "n": 6,
+    "sd": 12.156168831085788,
+    "source": "weather"
+   },
+   {
+    "item": "Fort Smith, AR",
+    "item_id": "fortsmith",
+    "n": 6,
+    "sd": 11.977300002165558,
+    "source": "weather"
+   },
+   {
+    "item": "Little Rock, AR",
+    "item_id": "littlerock",
+    "n": 6,
+    "sd": 11.803660981389395,
+    "source": "weather"
+   },
+   {
+    "item": "Tulsa, OK",
+    "item_id": "tulsa",
+    "n": 6,
+    "sd": 11.63502389229577,
+    "source": "weather"
+   },
+   {
+    "item": "AT&T",
+    "item_id": "T",
+    "n": 6,
+    "sd": 11.471174010023084,
+    "source": "stocks"
+   },
+   {
+    "item": "Oklahoma City, OK",
+    "item_id": "okc",
+    "n": 6,
+    "sd": 11.471174010023084,
+    "source": "weather"
+   },
+   {
+    "item": "Houston, TX",
+    "item_id": "houston",
+    "n": 6,
+    "sd": 11.311908818948176,
+    "source": "weather"
+   },
+   {
+    "item": "American Airlines",
+    "item_id": "AAL",
+    "n": 6,
+    "sd": 10.056465666101563,
+    "source": "stocks"
+   },
+   {
+    "item": "Southwest Airlines",
+    "item_id": "LUV",
+    "n": 6,
+    "sd": 8.953828266420507,
+    "source": "stocks"
+   },
+   {
+    "item": "JPMorgan Chase",
+    "item_id": "JPM",
+    "n": 5,
+    "sd": 8.255134234833896,
+    "source": "stocks"
+   },
+   {
+    "item": "Texas Instruments",
+    "item_id": "TXN",
+    "n": 6,
+    "sd": 8.069907565870547,
+    "source": "stocks"
+   },
+   {
+    "item": "Capital One",
+    "item_id": "COF",
+    "n": 6,
+    "sd": 7.345314756273833,
+    "source": "stocks"
+   },
+   {
+    "item": "Bitcoin",
+    "item_id": "bitcoin",
+    "n": 5,
+    "sd": 6.277920103842466,
+    "source": "crypto"
+   },
+   {
+    "item": "Charles Schwab",
+    "item_id": "SCHW",
+    "n": 6,
+    "sd": 6.2277904297502795,
+    "source": "stocks"
+   },
+   {
+    "item": "Wells Fargo",
+    "item_id": "WFC",
+    "n": 6,
+    "sd": 5.787753143654533,
+    "source": "stocks"
+   },
+   {
+    "item": "Toyota Motor",
+    "item_id": "TM",
+    "n": 6,
+    "sd": 5.40589068809093,
+    "source": "stocks"
+   },
+   {
+    "item": "ExxonMobil",
+    "item_id": "XOM",
+    "n": 6,
+    "sd": 5.071366209156525,
+    "source": "stocks"
+   },
+   {
+    "item": "Kimberly-Clark",
+    "item_id": "KMB",
+    "n": 6,
+    "sd": 4.77588037096713,
+    "source": "stocks"
+   },
+   {
+    "item": "McKesson",
+    "item_id": "MCK",
+    "n": 6,
+    "sd": 4.512968895175369,
+    "source": "stocks"
+   },
+   {
+    "item": "J.B. Hunt",
+    "item_id": "JBHT",
+    "n": 6,
+    "sd": 4.2775214438653855,
+    "source": "stocks"
+   },
+   {
+    "item": "Ethereum",
+    "item_id": "ethereum",
+    "n": 5,
+    "sd": 3.218900931062608,
+    "source": "crypto"
+   },
+   {
+    "item": "XRP",
+    "item_id": "ripple",
+    "n": 5,
+    "sd": 2.1646226339056693,
+    "source": "crypto"
+   },
+   {
+    "item": "BNB",
+    "item_id": "binancecoin",
+    "n": 5,
+    "sd": 1.6306151695440945,
+    "source": "crypto"
+   },
+   {
+    "item": "Solana",
+    "item_id": "solana",
+    "n": 5,
+    "sd": 1.3079602134091861,
+    "source": "crypto"
+   },
+   {
+    "item": "Dogecoin",
+    "item_id": "dogecoin",
+    "n": 5,
+    "sd": 1.0919066070150754,
+    "source": "crypto"
+   },
+   {
+    "item": "Cardano",
+    "item_id": "cardano",
+    "n": 5,
+    "sd": 0.9371131004002003,
+    "source": "crypto"
+   },
+   {
+    "item": "TRON",
+    "item_id": "tron",
+    "n": 5,
+    "sd": 0.820759641476664,
+    "source": "crypto"
+   },
+   {
+    "item": "Chainlink",
+    "item_id": "chainlink",
+    "n": 5,
+    "sd": 0.7301087272595707,
+    "source": "crypto"
+   },
+   {
+    "item": "Litecoin",
+    "item_id": "litecoin",
+    "n": 5,
+    "sd": 0.6574907743113398,
+    "source": "crypto"
+   },
+   {
+    "item": "Stellar",
+    "item_id": "stellar",
+    "n": 5,
+    "sd": 0.5980116267472686,
+    "source": "crypto"
+   },
+   {
+    "item": "Avalanche",
+    "item_id": "avalanche-2",
+    "n": 5,
+    "sd": 0.5484012537110731,
+    "source": "crypto"
+   }
+  ]
+ }
+}
