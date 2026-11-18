@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Today · Data Tracker</title>
+<meta name="description" content="The latest run: source status, the latest values and the biggest moves.">
+<meta name="theme-color" content="#8a2459">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">Data Tracker</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a class="link" href="index.html" aria-current="page">Today</a></li>
+        <li><a class="link" href="browse.html">Browse</a></li>
+        <li><a class="link" href="trends.html">Trends</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div id="banner" class="banner" role="status" hidden></div>
+<section class="hero"><div class="hero-inner"><h1>Today</h1>
+<p class="sub" id="runline">Loading the latest run…</p></div></section>
+<main id="content">
+
+<section aria-label="Counts"><div class="stats" id="stats"></div></section>
+
+<h2>Sources</h2>
+<div class="card" style="overflow-x:auto"><table id="sources"><thead><tr><th>Source</th><th>Status in the latest run</th><th class="num">Items</th></tr></thead><tbody></tbody></table></div>
+
+<h2>Biggest moves since the previous run</h2>
+<p class="sub" id="moves-note"></p>
+<div class="card" style="overflow-x:auto"><table class="moves" id="moves"><thead><tr><th>Item</th><th>Source</th><th class="num">Previous</th><th class="num">Latest</th><th class="num">Change</th></tr></thead><tbody></tbody></table></div>
+
+<h2>Latest values</h2>
+<p class="sub">Every tracked item with its change since the previous run. Items of a source that failed in the latest run show their last known values and the date.</p>
+<div class="card" style="overflow-x:auto"><table class="moves" id="latest"><thead><tr><th>Item</th><th>Source</th><th class="num">Latest</th><th class="num">Previous</th><th class="num">Change</th><th>Other values</th></tr></thead><tbody></tbody></table></div>
+
+<h2 id="appear-h">Items that appeared or disappeared</h2>
+<div class="card"><ul class="posts" id="appear"></ul></div>
+</main>
+<footer>Updated every day by GitHub Actions. Stocks from Stooq, coins from CoinGecko, weather from Open-Meteo.
+<a href="https://github.com/zoerowe1007/data-tracker">Source code and data</a></footer>
+<script src="assets/common.js"></script>
+<script>
+(function () {
+  function pctCell(p) {
+    if (p == null) return '<td class="num">—</td>';
+    return '<td class="num ' + (p > 0 ? 'up' : p < 0 ? 'down' : '') + '">' + DT.pct(p) + '</td>';
+  }
+  function others(r, col) {
+    return DT.NUMERIC.filter(function (c) { return c !== col && r[c] != null; }).map(function (c) {
+      return DT.COLS[c].label.toLowerCase() + ' ' + DT.value(c, r[c]);
+    }).join(' · ');
+  }
+  DT.loadData().then(function (d) {
+    var s = d.status, rows = d.history, diff = DT.compare(rows);
+    document.getElementById('runline').textContent = 'Last run: ' + DT.runLabel(s.run_time) +
+      ' (' + new Date(s.run_time).toLocaleString() + ' your time)';
+    var cards = [['days_with_success', 'Days with a successful run', ''], ['items', 'Items in the latest run', ''],
+                 ['new_today', 'Appeared', 'new'], ['gone_today', 'Disappeared', 'removed']];
+    document.getElementById('stats').innerHTML = cards.map(function (c) {
+      return '<div class="card stat ' + c[2] + '"><div class="num">' + DT.fmt(s[c[0]]) + '</div><div class="label">' + c[1] + '</div></div>';
+    }).join('');
+    document.querySelector('#sources tbody').innerHTML = s.sources.map(function (x) {
+      return '<tr><td>' + DT.esc(x.name) + '</td><td>' + (x.ok ? '<span class="pill ok">ok</span>' : '<span class="pill bad">failed</span>') +
+        '</td><td class="num">' + DT.fmt(x.count) + '</td></tr>';
+    }).join('');
+
+    var moves = DT.biggestMoves(diff.changes, 10), note = document.getElementById('moves-note');
+    note.textContent = moves.length
+      ? 'Top ' + moves.length + ' by percent change of each item\'s headline value (price for stocks and coins, temperature for cities).'
+      : 'There is no previous run to compare with yet. Today\'s values are the starting point.';
+    document.querySelector('#moves tbody').innerHTML = moves.map(function (m) {
+      return '<tr><td>' + DT.esc(m.item) + '</td><td>' + DT.esc(m.source) + '</td><td class="num">' + DT.value(m.column, m.old) +
+        '</td><td class="num">' + DT.value(m.column, m['new']) + '</td>' + pctCell(m.pct) + '</tr>';
+    }).join('') || '<tr><td colspan="5" class="empty">Nothing to compare yet.</td></tr>';
+
+    var change = {};
+    diff.changes.forEach(function (c) { change[c.item_id] = c; });
+    document.querySelector('#latest tbody').innerHTML = DT.latestRows(rows).map(function (r) {
+      var col = DT.headline(r.source), c = change[r.item_id], stale = r.date !== diff.latestDate;
+      return '<tr><td>' + DT.esc(r.item) + (stale ? '<div class="small">as of ' + r.date + '</div>' : '') + '</td><td>' + DT.esc(r.source) +
+        '</td><td class="num">' + DT.value(col, r[col]) + '</td><td class="num">' + (c ? DT.value(col, c.old) : '—') + '</td>' +
+        pctCell(c ? c.pct : null) + '<td class="detail">' + DT.esc(others(r, col)) + '</td></tr>';
+    }).join('');
+
+    var items = diff.isNew.map(function (r) { return '<li><div class="main"><div class="title">' + DT.esc(r.item) + '</div><div class="meta">appeared · ' + DT.esc(r.source) + '</div></div></li>'; })
+      .concat(diff.gone.map(function (r) { return '<li><div class="main"><div class="title">' + DT.esc(r.item) + '</div><div class="meta">disappeared · ' + DT.esc(r.source) + ' · last seen ' + r.date + '</div></div></li>'; }));
+    document.getElementById('appear').innerHTML = items.join('') ||
+      '<li class="empty">No item appeared or disappeared in the latest run.</li>';
+  }).catch(DT.showError);
+})();
+</script>
+</body>
+</html>

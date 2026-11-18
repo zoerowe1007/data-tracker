@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Browse · Data Tracker</title>
+<meta name="description" content="Filter, search, sort and star every tracked item.">
+<meta name="theme-color" content="#8a2459">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">Data Tracker</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a class="link" href="index.html">Today</a></li>
+        <li><a class="link" href="browse.html" aria-current="page">Browse</a></li>
+        <li><a class="link" href="trends.html">Trends</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div id="banner" class="banner" role="status" hidden></div>
+<section class="hero"><div class="hero-inner"><h1>Browse</h1>
+<p class="sub">Every item, with its latest values.</p></div></section>
+<main id="content">
+<p class="sub">The latest values of every item. Filter, search, sort by any column, and star the items you want to keep. Your stars stay in this browser.</p>
+<div class="controls">
+  <div><label for="f-source">Source</label><select id="f-source"><option value="">All sources</option></select></div>
+  <div><label for="f-category">Category</label><select id="f-category"><option value="">All categories</option></select></div>
+  <div><label for="q">Search item names</label><input id="q" type="search" placeholder="Walmart, bitcoin, Dallas…" autocomplete="off"></div>
+  <div><label for="sortby">Sort by</label><select id="sortby"></select></div>
+  <div><label>&nbsp;</label><div class="switch" role="group" aria-label="Sort direction"><button type="button" id="asc" aria-pressed="true">Up ▲</button><button type="button" id="desc" aria-pressed="false">Down ▼</button></div></div>
+  <div><label>&nbsp;</label><div class="switch" role="group" aria-label="Shortlist filter"><button type="button" id="all" aria-pressed="true">All items</button><button type="button" id="starred" aria-pressed="false">★ Shortlist</button></div></div>
+</div>
+<div class="resultbar"><span id="count" role="status" aria-live="polite"></span></div>
+<div class="card" style="overflow-x:auto"><table class="sortable moves" id="table"><thead></thead><tbody></tbody></table></div>
+</main>
+<footer>Updated every day by GitHub Actions. Stocks from Stooq, coins from CoinGecko, weather from Open-Meteo.
+<a href="https://github.com/zoerowe1007/data-tracker">Source code and data</a></footer>
+<script src="assets/common.js"></script>
+<script>
+(function () {
+  var state = { source: '', category: '', q: '', sort: 'item', dir: 'asc', starredOnly: false };
+  var rows = [], cols = [];
+  var TEXT = [['item', 'Item'], ['source', 'Source'], ['category', 'Category']];
+  var $ = function (id) { return document.getElementById(id); };
+
+  function sortLabel(key) {
+    var t = TEXT.filter(function (x) { return x[0] === key; })[0];
+    return t ? t[1] : DT.COLS[key].label + (DT.COLS[key].unit && DT.COLS[key].unit !== '$' ? ' (' + DT.COLS[key].unit + ')' : '');
+  }
+  function head() {
+    var keys = TEXT.map(function (t) { return t[0]; }).concat(cols);
+    $('table').tHead.innerHTML = '<tr><th><span class="visually-hidden">Shortlist</span></th>' + keys.map(function (k) {
+      var num = cols.indexOf(k) !== -1, sorted = state.sort === k ? (state.dir === 'asc' ? 'ascending' : 'descending') : 'none';
+      return '<th' + (num ? ' class="num"' : '') + ' aria-sort="' + sorted + '"><button type="button" data-sort="' + k + '">' + DT.esc(sortLabel(k)) + '</button></th>';
+    }).join('') + '</tr>';
+  }
+  function draw() {
+    var starred = DT.shortlist.all();
+    var out = DT.browseRows(rows, { source: state.source, category: state.category, q: state.q,
+      starred: state.starredOnly ? starred : null, sort: state.sort, dir: state.dir });
+    $('count').textContent = DT.plural(out.length, 'item') + ' shown of ' + rows.length + (state.starredOnly ? ' · shortlist only' : '');
+    $('asc').setAttribute('aria-pressed', state.dir === 'asc'); $('desc').setAttribute('aria-pressed', state.dir === 'desc');
+    $('all').setAttribute('aria-pressed', !state.starredOnly); $('starred').setAttribute('aria-pressed', state.starredOnly);
+    $('sortby').value = state.sort;
+    head();
+    $('table').tBodies[0].innerHTML = out.map(function (r) {
+      var on = starred.indexOf(r.item_id) !== -1;
+      return '<tr><td><button class="star" data-id="' + DT.esc(r.item_id) + '" aria-pressed="' + on + '" aria-label="Shortlist ' + DT.esc(r.item) +
+        '" title="Add to shortlist">' + (on ? '★' : '☆') + '</button></td><td>' + DT.esc(r.item) + '</td><td>' + DT.esc(r.source) +
+        '</td><td>' + DT.esc(r.category) + '</td>' + cols.map(function (c) {
+          return '<td class="num">' + DT.value(c, r[c]) + '</td>';
+        }).join('') + '</tr>';
+    }).join('') || '<tr><td colspan="' + (4 + cols.length) + '" class="empty">No items match these filters.</td></tr>';
+  }
+  function options(el, values) {
+    el.insertAdjacentHTML('beforeend', values.map(function (v) { return '<option value="' + DT.esc(v) + '">' + DT.esc(v) + '</option>'; }).join(''));
+  }
+  DT.loadData().then(function (d) {
+    rows = DT.latestRows(d.history);
+    cols = DT.NUMERIC.filter(function (c) { return rows.some(function (r) { return r[c] != null; }); });
+    var uniq = function (k) { return rows.map(function (r) { return r[k]; }).filter(function (v, i, a) { return v && a.indexOf(v) === i; }).sort(); };
+    options($('f-source'), uniq('source')); options($('f-category'), uniq('category'));
+    $('sortby').innerHTML = TEXT.map(function (t) { return t[0]; }).concat(cols).map(function (k) { return '<option value="' + k + '">' + DT.esc(sortLabel(k)) + '</option>'; }).join('');
+    $('f-source').onchange = function () { state.source = this.value; draw(); };
+    $('f-category').onchange = function () { state.category = this.value; draw(); };
+    $('q').oninput = function () { state.q = this.value; draw(); };
+    $('sortby').onchange = function () { state.sort = this.value; draw(); };
+    $('asc').onclick = function () { state.dir = 'asc'; draw(); };
+    $('desc').onclick = function () { state.dir = 'desc'; draw(); };
+    $('all').onclick = function () { state.starredOnly = false; draw(); };
+    $('starred').onclick = function () { state.starredOnly = true; draw(); };
+    $('table').addEventListener('click', function (e) {
+      var star = e.target.closest('.star'), sort = e.target.closest('[data-sort]');
+      if (star) { DT.shortlist.toggle(star.getAttribute('data-id')); draw(); }
+      if (sort) {
+        var k = sort.getAttribute('data-sort');
+        if (state.sort === k) state.dir = state.dir === 'asc' ? 'desc' : 'asc'; else { state.sort = k; state.dir = cols.indexOf(k) !== -1 ? 'desc' : 'asc'; }
+        draw();
+      }
+    });
+    draw();
+  }).catch(DT.showError);
+})();
+</script>
+</body>
+</html>

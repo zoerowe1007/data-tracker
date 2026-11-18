@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trends · Data Tracker</title>
+<meta name="description" content="Findings computed in your browser from the history, with charts of every value.">
+<meta name="theme-color" content="#8a2459">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">Data Tracker</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a class="link" href="index.html">Today</a></li>
+        <li><a class="link" href="browse.html">Browse</a></li>
+        <li><a class="link" href="trends.html" aria-current="page">Trends</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div id="banner" class="banner" role="status" hidden></div>
+<section class="hero"><div class="hero-inner"><h1>Trends</h1>
+<p class="sub">Findings and charts computed in your browser from the whole history.</p></div></section>
+<main id="content">
+<p class="sub" id="intro">Loading the history…</p>
+
+<h2>Chart explorer</h2>
+<div class="card">
+  <strong>Pick the items to chart.</strong> <span class="small">Each chart below shows one value over the days for the picked items that report it.</span>
+  <div id="picker"></div>
+  <div style="margin-top:10px"><div class="switch" role="group" aria-label="Scale"><button type="button" id="m-index" aria-pressed="true">Index (first day = 100)</button><button type="button" id="m-value" aria-pressed="false">Actual values</button></div>
+  <span class="small"> Index puts items with very different sizes on one scale. Percent values (change, humidity) are always shown as they are.</span></div>
+</div>
+<div id="charts"></div>
+
+<h2>What the history shows</h2>
+<div id="findings"></div>
+</main>
+<footer>Updated every day by GitHub Actions. Stocks from Stooq, coins from CoinGecko, weather from Open-Meteo.
+<a href="https://github.com/zoerowe1007/data-tracker">Source code and data</a></footer>
+<script src="assets/common.js"></script>
+<script src="assets/trends-calc.js"></script>
+<script src="assets/charts.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var data, rows, ids = [], mode = 'index', names = {}, groups = {};
+
+  /* ---------- chart explorer ---------- */
+  function picker() {
+    $('picker').innerHTML = Object.keys(groups).sort().map(function (src) {
+      return '<div class="group-title">' + DT.esc(src) + ' <button type="button" data-all="' + DT.esc(src) + '">all</button><button type="button" data-none="' + DT.esc(src) + '">none</button></div><div class="chips">' +
+        groups[src].map(function (it) {
+          return '<label class="chip"><input type="checkbox" data-id="' + DT.esc(it.id) + '"' + (ids.indexOf(it.id) !== -1 ? ' checked' : '') + '> ' + DT.esc(it.name) + '</label>';
+        }).join('') + '</div>';
+    }).join('');
+  }
+  function charts() {
+    var dates = Object.keys(rows.reduce(function (a, r) { a[r.date] = 1; return a; }, {})).sort();
+    var html = '';
+    DT.NUMERIC.forEach(function (col) {
+      var useIndex = mode === 'index' && DT.COLS[col].unit !== '%';
+      var series = DT.lineSeries(rows, col, ids, useIndex ? 'index' : 'value');
+      if (!series.length) return;
+      var c = DT.COLS[col], unit = c.unit && c.unit !== '$' ? ' (' + c.unit + ')' : (c.unit === '$' ? ' (USD)' : '');
+      var title = c.label + unit + (useIndex ? ', index: first day = 100' : '');
+      html += '<div class="card chart-card"><h3>' + DT.esc(title) + '</h3>' +
+        DTCharts.line({ label: title + ' by day', dates: dates, series: series }) + DTCharts.legend(series) + '</div>';
+    });
+    $('charts').innerHTML = html || '<div class="card empty">Pick at least one item above.</div>';
+  }
+  function setMode(m) { mode = m; $('m-index').setAttribute('aria-pressed', m === 'index'); $('m-value').setAttribute('aria-pressed', m === 'value'); charts(); }
+
+  /* ---------- findings: every number comes from DT.trends(history) ---------- */
+  function section(heading, paras, chart, table) {
+    return '<section class="section card"><h2>' + DT.esc(heading) + '</h2>' + paras.map(function (p) { return '<p>' + p + '</p>'; }).join('') +
+      (chart || '') + (table || '') + '</section>';
+  }
+  function how(text) { return '<span class="small"><strong>How it is computed:</strong> ' + DT.esc(text) + '</span>'; }
+  function findings(T) {
+    var n = T.days.length, out = [];
+    var HEADLINE_NOTE = ' of the item\'s headline value (price for stocks and coins, temperature in °F for cities)';
+
+    // 1. best and weakest since the first run
+    if (T.riser) {
+      var up = T.sinceFirst.filter(function (s) { return s.pct > 0; }).length, down = T.sinceFirst.filter(function (s) { return s.pct < 0; }).length;
+      var rowsA = T.sinceFirst.slice(0, 5), seen = {};
+      T.sinceFirst.slice(-5).forEach(function (s) { rowsA.push(s); });
+      rowsA = rowsA.filter(function (s) { return seen[s.item_id] ? false : (seen[s.item_id] = true); });
+      out.push(section('Since the first run, ' + T.riser.item + ' is the best performer (' + DT.pct(T.riser.pct) + ') and ' + T.faller.item + ' the weakest (' + DT.pct(T.faller.pct) + ')',
+        ['Of ' + T.sinceFirst.length + ' items with at least two days of data, ' + up + ' are up, ' + down + ' are down and ' + (T.sinceFirst.length - up - down) + ' are unchanged. ' +
+         T.riser.item + ' went from ' + DT.num(T.riser.first, 2) + ' on ' + T.riser.firstDate + ' to ' + DT.num(T.riser.last, 2) + ' on ' + T.riser.lastDate + '; ' +
+         T.faller.item + ' went from ' + DT.num(T.faller.first, 2) + ' to ' + DT.num(T.faller.last, 2) + '.',
+         how('for each item, (latest value − first value) ÷ |first value| × 100,' + HEADLINE_NOTE + '. Temperatures use a denominator of at least 20. The chart shows the five best and five weakest items.')],
+        DTCharts.bars({ label: 'Change since the first run, best and weakest items', rows: rowsA.map(function (s) { return [s.item, s.pct]; }), format: DT.pct }),
+        DTCharts.dataTable(['Item', 'First', 'Latest', 'Change %'], T.sinceFirst.map(function (s) { return [s.item, DT.num(s.first, 2), DT.num(s.last, 2), s.pct.toFixed(2)]; }))));
+    } else {
+      out.push(section('Not enough history yet to compare with the first run (' + DT.plural(n, 'day') + ' so far)',
+        ['Each item needs at least two days of data. This section fills in on its own as the daily runs add days.', how('(latest value − first value) ÷ |first value| × 100' + HEADLINE_NOTE + '.')]));
+    }
+
+    // 2. the day with the biggest move
+    if (T.biggest) {
+      var topDay = T.daily.slice().sort(function (a, b) { return (b.meanAbs - a.meanAbs) || (a.date < b.date ? -1 : 1); })[0];
+      out.push(section('The biggest one-day move was ' + T.biggest.item + ' on ' + T.biggest.date + ' (' + DT.pct(T.biggest.pct) + ')',
+        ['The day with the largest average move across all items was ' + topDay.date + ', with an average absolute move of ' + topDay.meanAbs.toFixed(2) + '% over ' + DT.plural(topDay.n, 'item') + '.',
+         how('for every item and every day after its first, the percent change from its previous day' + HEADLINE_NOTE + '. The chart shows each day\'s average absolute move across items.')],
+        DTCharts.columns({ label: 'Average absolute move by day', labels: T.daily.map(function (d) { return d.date; }), values: T.daily.map(function (d) { return d.meanAbs; }), unit: '%' }),
+        DTCharts.dataTable(['Day', 'Items compared', 'Average |move| %', 'Biggest move %', 'Item'], T.daily.map(function (d) { return [d.date, d.n, d.meanAbs.toFixed(2), d.maxPct.toFixed(2), d.maxItemId]; }))));
+    } else {
+      out.push(section('Not enough history yet to find the biggest one-day move (' + DT.plural(n, 'day') + ' so far)',
+        ['A move needs two days. This section fills in on its own once a second day is in the history.', how('the percent change of each item from its previous day' + HEADLINE_NOTE + '.')]));
+    }
+
+    // 3. how far apart the cities are
+    if (T.spread) {
+      var S = T.spread, avgGap = T.dailyGap.length ? T.dailyGap.reduce(function (a, g) { return a + g.gap; }, 0) / T.dailyGap.length : S.gap;
+      out.push(section('On ' + S.date + ' the cities were ' + S.gap.toFixed(1) + '°F apart: ' + S.hottest.item + ' at ' + S.hottest.temp.toFixed(1) + '°F and ' + S.coldest.item + ' at ' + S.coldest.temp.toFixed(1) + '°F',
+        [DT.plural(S.n, 'city', 'cities') + ' reported a temperature that day. Over the ' + DT.plural(T.dailyGap.length, 'day') + ' with at least two cities, the average gap between the warmest and coldest city was ' + avgGap.toFixed(1) + '°F.',
+         how('on the latest day with weather rows, the highest temperature minus the lowest temperature in the history file. The daily gap averages that for each day.')],
+        DTCharts.bars({ label: 'Temperature by city on ' + S.date, rows: S.cities.map(function (c) { return [c.item, c.temp]; }), format: function (v) { return v.toFixed(1) + '°F'; }, cls: 'bar-neutral' }),
+        DTCharts.dataTable(['City', '°F'], S.cities.map(function (c) { return [c.item, c.temp.toFixed(1)]; }))));
+    } else {
+      out.push(section('No weather data in the history yet', ['This section compares the cities once the weather source has a day in the history.', how('highest minus lowest temperature on the latest day.')]));
+    }
+
+    // 4. average change by source
+    if (T.bySource.length) {
+      var top = T.bySource[0];
+      out.push(section('"' + top.source + '" moved the most on average since the first run (' + DT.pct(top.mean) + ')',
+        [T.bySource.map(function (g) { return DT.esc(g.source) + ' ' + DT.pct(g.mean) + ' (' + DT.plural(g.n, 'item') + ')'; }).join(', ') + '.',
+         how('the average of each item\'s change since its first day, grouped by source (stocks, crypto, weather).')],
+        DTCharts.bars({ label: 'Average change since the first run, by source', rows: T.bySource.map(function (g) { return [g.source, g.mean]; }), format: DT.pct }),
+        DTCharts.dataTable(['Source', 'Items', 'Average change %'], T.bySource.map(function (g) { return [g.source, g.n, g.mean.toFixed(2)]; }))));
+    } else {
+      out.push(section('Not enough history yet to compare the sources (' + DT.plural(n, 'day') + ' so far)', ['Needs at least two days.', how('the average change since the first day, per source.')]));
+    }
+
+    // 5. which items swing the most
+    if (T.volatility.length) {
+      var v = T.volatility[0];
+      out.push(section(v.item + ' swings the most from day to day (standard deviation ' + v.sd.toFixed(2) + '%)',
+        ['Calmest of the items measured: ' + T.volatility[T.volatility.length - 1].item + ' (' + T.volatility[T.volatility.length - 1].sd.toFixed(2) + '%). ' + T.volatility.length + ' items have at least two daily moves.',
+         how('the sample standard deviation of each item\'s day-to-day percent moves' + HEADLINE_NOTE + '. The chart shows the ten most volatile items.')],
+        DTCharts.bars({ label: 'Day-to-day volatility', rows: T.volatility.slice(0, 10).map(function (g) { return [g.item, g.sd]; }), format: function (x) { return x.toFixed(2) + '%'; }, cls: 'bar-neutral' }),
+        DTCharts.dataTable(['Item', 'Daily moves', 'Std. deviation %'], T.volatility.map(function (g) { return [g.item, g.n, g.sd.toFixed(2)]; }))));
+    } else {
+      out.push(section('Not enough history yet to measure volatility (' + DT.plural(n, 'day') + ' so far)', ['Needs at least three days, which gives two daily moves per item.', how('the sample standard deviation of each item\'s day-to-day percent moves.')]));
+    }
+    $('findings').innerHTML = out.join('');
+  }
+
+  DT.loadData().then(function (d) {
+    data = d; rows = d.history;
+    var T = DT.trends(rows);
+    $('intro').textContent = DT.plural(T.days.length, 'day') + ' of history (' + (T.days[0] || '—') + ' to ' + (T.days[T.days.length - 1] || '—') + '), ' +
+      DT.plural(T.items, 'item') + '. Every number on this page is computed in your browser from data/history.csv, so the page changes as the history grows.';
+    DT.latestRows(rows).forEach(function (r) { (groups[r.source] = groups[r.source] || []).push({ id: r.item_id, name: r.item }); });
+    Object.keys(groups).forEach(function (s) { groups[s].sort(function (a, b) { return a.name < b.name ? -1 : 1; }); ids = ids.concat(groups[s].slice(0, 2).map(function (x) { return x.id; })); });
+    picker(); charts(); findings(T);
+    $('picker').addEventListener('change', function (e) {
+      var id = e.target.getAttribute('data-id'), i = ids.indexOf(id);
+      if (i === -1) ids.push(id); else ids.splice(i, 1);
+      charts();
+    });
+    $('picker').addEventListener('click', function (e) {
+      var all = e.target.getAttribute('data-all'), none = e.target.getAttribute('data-none'), src = all || none;
+      if (!src) return;
+      var mine = groups[src].map(function (x) { return x.id; });
+      ids = ids.filter(function (i) { return mine.indexOf(i) === -1; });
+      if (all) ids = ids.concat(mine);
+      picker(); charts();
+    });
+    $('m-index').onclick = function () { setMode('index'); };
+    $('m-value').onclick = function () { setMode('value'); };
+  }).catch(DT.showError);
+})();
+</script>
+</body>
+</html>
