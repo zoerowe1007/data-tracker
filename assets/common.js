@@ -4,12 +4,12 @@
   var DT = {};
 
   /* ---------- columns ---------- */
-  DT.NUMERIC = ['price', 'open', 'high', 'low', 'volume', 'change_pct', 'market_cap',
-                'temp_f', 'humidity_pct', 'wind_mph', 'pressure_hpa'];
-  // label, unit and decimals for display. Volume is shares for stocks and USD traded in 24h for crypto.
+  DT.NUMERIC = ['price', 'high', 'low', 'volume', 'change_pct', 'market_cap',
+                'temp_f', 'humidity_pct', 'wind_mph', 'pressure_hpa',
+                'us_aqi', 'pm2_5', 'pm10', 'ozone'];
+  // label, unit and decimals for display. Volume is USD traded in the last 24 hours (crypto).
   DT.COLS = {
     price:        { label: 'Price',       unit: '$',   dec: 2 },
-    open:         { label: 'Open',        unit: '$',   dec: 2 },
     high:         { label: 'High',        unit: '$',   dec: 2 },
     low:          { label: 'Low',         unit: '$',   dec: 2 },
     volume:       { label: 'Volume',      unit: '',    dec: 0, compact: true },
@@ -18,10 +18,14 @@
     temp_f:       { label: 'Temperature', unit: '°F',  dec: 1 },
     humidity_pct: { label: 'Humidity',    unit: '%',   dec: 0 },
     wind_mph:     { label: 'Wind',        unit: 'mph', dec: 1 },
-    pressure_hpa: { label: 'Pressure',    unit: 'hPa', dec: 1 }
+    pressure_hpa: { label: 'Pressure',    unit: 'hPa', dec: 1 },
+    us_aqi:       { label: 'Air quality index', unit: '',  dec: 0 },
+    pm2_5:        { label: 'PM2.5',       unit: 'µg/m³', dec: 1 },
+    pm10:         { label: 'PM10',        unit: 'µg/m³', dec: 1 },
+    ozone:        { label: 'Ozone',       unit: 'µg/m³', dec: 0 }
   };
   // The headline value of each source: the one a "move" is measured on (must match sources.json).
-  DT.HEADLINE = { stocks: 'price', crypto: 'price', weather: 'temp_f' };
+  DT.HEADLINE = { crypto: 'price', weather: 'temp_f', air: 'us_aqi' };
   DT.headline = function (source) { return DT.HEADLINE[source] || 'price'; };
   DT.DENOMINATOR_FLOOR = 20;
 

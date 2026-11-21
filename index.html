@@ -45,7 +45,7 @@
 <h2 id="appear-h">Items that appeared or disappeared</h2>
 <div class="card"><ul class="posts" id="appear"></ul></div>
 </main>
-<footer>Updated every day by GitHub Actions. Stocks from Stooq, coins from CoinGecko, weather from Open-Meteo.
+<footer>Updated every day by GitHub Actions. Coins from CoinGecko, weather and air quality from Open-Meteo.
 <a href="https://github.com/zoerowe1007/data-tracker">Source code and data</a></footer>
 <script src="assets/common.js"></script>
 <script>
@@ -75,7 +75,7 @@
 
     var moves = DT.biggestMoves(diff.changes, 10), note = document.getElementById('moves-note');
     note.textContent = moves.length
-      ? 'Top ' + moves.length + ' by percent change of each item\'s headline value (price for stocks and coins, temperature for cities).'
+      ? 'Top ' + moves.length + ' by percent change of each item\'s headline value (price for coins, temperature for cities, air quality index for air-quality places).'
       : 'There is no previous run to compare with yet. Today\'s values are the starting point.';
     document.querySelector('#moves tbody').innerHTML = moves.map(function (m) {
       return '<tr><td>' + DT.esc(m.item) + '</td><td>' + DT.esc(m.source) + '</td><td class="num">' + DT.value(m.column, m.old) +

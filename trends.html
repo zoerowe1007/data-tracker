@@ -42,7 +42,7 @@
 <h2>What the history shows</h2>
 <div id="findings"></div>
 </main>
-<footer>Updated every day by GitHub Actions. Stocks from Stooq, coins from CoinGecko, weather from Open-Meteo.
+<footer>Updated every day by GitHub Actions. Coins from CoinGecko, weather and air quality from Open-Meteo.
 <a href="https://github.com/zoerowe1007/data-tracker">Source code and data</a></footer>
 <script src="assets/common.js"></script>
 <script src="assets/trends-calc.js"></script>
@@ -85,7 +85,7 @@
   function how(text) { return '<span class="small"><strong>How it is computed:</strong> ' + DT.esc(text) + '</span>'; }
   function findings(T) {
     var n = T.days.length, out = [];
-    var HEADLINE_NOTE = ' of the item\'s headline value (price for stocks and coins, temperature in °F for cities)';
+    var HEADLINE_NOTE = ' of the item\'s headline value (price for coins, temperature in °F for cities, air quality index for air-quality places)';
 
     // 1. best and weakest since the first run
     if (T.riser) {
@@ -135,7 +135,7 @@
       var top = T.bySource[0];
       out.push(section('"' + top.source + '" moved the most on average since the first run (' + DT.pct(top.mean) + ')',
         [T.bySource.map(function (g) { return DT.esc(g.source) + ' ' + DT.pct(g.mean) + ' (' + DT.plural(g.n, 'item') + ')'; }).join(', ') + '.',
-         how('the average of each item\'s change since its first day, grouped by source (stocks, crypto, weather).')],
+         how('the average of each item\'s change since its first day, grouped by source (crypto, weather, air).')],
         DTCharts.bars({ label: 'Average change since the first run, by source', rows: T.bySource.map(function (g) { return [g.source, g.mean]; }), format: DT.pct }),
         DTCharts.dataTable(['Source', 'Items', 'Average change %'], T.bySource.map(function (g) { return [g.source, g.n, g.mean.toFixed(2)]; }))));
     } else {
