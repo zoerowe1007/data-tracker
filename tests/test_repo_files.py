@@ -92,3 +92,12 @@ def test_no_secrets_in_the_repository():
 def test_trends_numbers_match_the_python_reference():
     res = subprocess.run(["node", str(ROOT / "tests" / "trends_check.mjs")], capture_output=True, text=True)
     assert res.returncode == 0, res.stdout + res.stderr
+
+
+def test_workflow_files_are_valid_yaml():
+    yaml = pytest.importorskip("yaml")
+    files = sorted((ROOT / ".github" / "workflows").glob("*.yml"))
+    assert len(files) == 2
+    for f in files:
+        doc = yaml.safe_load(f.read_text(encoding="utf-8"))
+        assert doc["jobs"], f

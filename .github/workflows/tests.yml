@@ -18,5 +18,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Trends numbers: browser against Python reference
+      - name: Trends numbers, browser against Python reference
         run: node tests/trends_check.mjs
