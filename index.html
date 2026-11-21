@@ -17,37 +17,50 @@
     <a class="brand" href="index.html">Data Tracker</a>
     <nav aria-label="Main">
       <ul>
-        <li><a class="link" href="index.html" aria-current="page">Today</a></li>
-        <li><a class="link" href="browse.html">Browse</a></li>
-        <li><a class="link" href="trends.html">Trends</a></li>
+        <li><a class="link" href="index.html" aria-current="page">Today<small>what changed</small></a></li>
+        <li><a class="link" href="browse.html">Browse<small>look up items</small></a></li>
+        <li><a class="link" href="trends.html">Trends<small>how values moved</small></a></li>
       </ul>
     </nav>
   </div>
 </header>
 <div id="banner" class="banner" role="status" hidden></div>
 <section class="hero"><div class="hero-inner"><h1>Today</h1>
-<p class="sub" id="runline">Loading the latest run…</p></div></section>
+<p class="sub">What changed in the latest check of the data, in plain words and in numbers.</p></div></section>
 <main id="content">
 
+<div class="card explain summary" id="summary" role="status"><span id="runline">Loading the latest run…</span></div>
+
+<h2>How the data gets here</h2>
+<div id="flow"></div>
+
+<h2>The latest run in numbers</h2>
 <section aria-label="Counts"><div class="stats" id="stats"></div></section>
 
-<h2>Sources</h2>
-<div class="card" style="overflow-x:auto"><table id="sources"><thead><tr><th>Source</th><th>Status in the latest run</th><th class="num">Items</th></tr></thead><tbody></tbody></table></div>
+<h2>What is being tracked</h2>
+<p class="sub">Three public sources, each tracking 12 items. A source shows <span class="pill ok">ok</span> when it answered and its raw file was saved; if it <span class="pill bad">failed</span>, its items keep their last known values until it works again.</p>
+<div class="sourcecards" id="sourcecards"></div>
 
 <h2>Biggest moves since the previous run</h2>
 <p class="sub" id="moves-note"></p>
-<div class="card" style="overflow-x:auto"><table class="moves" id="moves"><thead><tr><th>Item</th><th>Source</th><th class="num">Previous</th><th class="num">Latest</th><th class="num">Change</th></tr></thead><tbody></tbody></table></div>
+<div class="keyrow"><span class="k-up">pink = went up</span><span class="k-down">orange = went down</span></div>
+<div class="card" style="overflow-x:auto"><table class="moves" id="moves"><thead><tr><th>Item</th><th title="The one number per source that a move is measured on">Measured on</th><th class="num">Previous</th><th class="num">Latest</th><th class="num" title="(latest − previous) ÷ previous × 100">Change</th></tr></thead><tbody></tbody></table></div>
 
-<h2>Latest values</h2>
-<p class="sub">Every tracked item with its change since the previous run. Items of a source that failed in the latest run show their last known values and the date.</p>
-<div class="card" style="overflow-x:auto"><table class="moves" id="latest"><thead><tr><th>Item</th><th>Source</th><th class="num">Latest</th><th class="num">Previous</th><th class="num">Change</th><th>Other values</th></tr></thead><tbody></tbody></table></div>
+<h2>Latest values of every item</h2>
+<p class="sub">Grouped by source. <strong>Latest</strong> is the headline value named in each group heading; <strong>Change</strong> is the move since the previous run; <strong>More readings</strong> are the item's other numbers. Click an item name to see its chart on the Trends page.</p>
+<div class="card" style="overflow-x:auto"><table class="moves" id="latest"><thead><tr><th>Item</th><th class="num">Latest</th><th class="num">Previous</th><th class="num">Change</th><th>More readings</th></tr></thead><tbody></tbody></table></div>
 
 <h2 id="appear-h">Items that appeared or disappeared</h2>
+<p class="sub">An item <em>appears</em> when a source reports it now but did not in its previous run, and <em>disappears</em> when it did before but not now.</p>
 <div class="card"><ul class="posts" id="appear"></ul></div>
+
+<div style="margin-top:28px" id="glossary"></div>
+<div id="next"></div>
 </main>
 <footer>Updated every day by GitHub Actions. Coins from CoinGecko, weather and air quality from Open-Meteo.
 <a href="https://github.com/zoerowe1007/data-tracker">Source code and data</a></footer>
 <script src="assets/common.js"></script>
+<script src="assets/guide.js"></script>
 <script>
 (function () {
   function pctCell(p) {
@@ -56,45 +69,86 @@
   }
   function others(r, col) {
     return DT.NUMERIC.filter(function (c) { return c !== col && r[c] != null; }).map(function (c) {
-      return DT.COLS[c].label.toLowerCase() + ' ' + DT.value(c, r[c]);
+      return '<span title="' + DT.esc(DT.HELP[c][0]) + '">' + DT.esc(DT.COLS[c].label.toLowerCase()) + ' ' + DT.value(c, r[c]) + '</span>';
     }).join(' · ');
   }
+  function itemLink(id, name) { return '<a class="item" href="' + DT.trendHref(id) + '" title="See ' + DT.esc(name) + ' on the Trends page">' + DT.esc(name) + '</a>'; }
+  // The twice-daily schedule (08:11 and 20:41 UTC) written in the reader's own time zone.
+  function schedule() {
+    return [[8, 11], [20, 41]].map(function (t) {
+      return new Date(Date.UTC(2026, 0, 1, t[0], t[1])).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    }).join(' and ');
+  }
   DT.loadData().then(function (d) {
-    var s = d.status, rows = d.history, diff = DT.compare(rows);
-    document.getElementById('runline').textContent = 'Last run: ' + DT.runLabel(s.run_time) +
-      ' (' + new Date(s.run_time).toLocaleString() + ' your time)';
-    var cards = [['days_with_success', 'Days with a successful run', ''], ['items', 'Items in the latest run', ''],
-                 ['new_today', 'Appeared', 'new'], ['gone_today', 'Disappeared', 'removed']];
+    var s = d.status, rows = d.history, diff = DT.compare(rows), moves = DT.biggestMoves(diff.changes, 10);
+    var okCount = s.sources.filter(function (x) { return x.ok; }).length;
+    var withPct = diff.changes.filter(function (c) { return c.pct != null; });
+    var up = withPct.filter(function (c) { return c.pct > 0; }).length, down = withPct.filter(function (c) { return c.pct < 0; }).length;
+
+    // plain-English summary
+    var html = '<b>' + DT.runLabel(s.run_time) + '</b> (' + DT.esc(new Date(s.run_time).toLocaleString()) + ' your time): the tracker checked <b>' +
+      DT.plural(s.items, 'item') + '</b> from <b>' + okCount + ' of ' + s.sources.length + ' sources</b>. ';
+    if (withPct.length) {
+      html += 'Since the previous run, <b>' + up + '</b> went up, <b>' + down + '</b> went down and ' + (withPct.length - up - down) + ' did not change. ';
+      if (moves.length) html += 'The biggest move was <b>' + DT.esc(moves[0].item) + '</b> (' + DT.pct(moves[0].pct) + ' in ' + DT.esc(DT.measureLabel(moves[0].source).toLowerCase()) + '). ';
+    } else {
+      html += 'This is the first day of data, so there is nothing to compare with yet: today\'s values are the starting point and changes appear after the next run. ';
+    }
+    if (okCount < s.sources.length) html += '<b>Not every source worked this time</b>; see "What is being tracked" below. ';
+    html += '<br><span class="small">It runs by itself twice a day, around ' + schedule() + ' your time, and this page reloads the newest data every time you open it.</span>';
+    document.getElementById('runline').innerHTML = html;
+
+    document.getElementById('flow').innerHTML = DT.guide.flow({
+      sourceNames: s.sources.map(function (x) { var i = DT.sourceInfo(x.name); return i.title + ' (' + i.provider + ')'; }).join(', '),
+      days: s.days_with_success, rows: rows.length });
+
+    var cards = [['days_with_success', 'Days with a successful run', '', 'Different dates that have saved data.'],
+                 ['items', 'Items in the latest run', '', 'Coins, cities and places that reported a value.'],
+                 ['new_today', 'Appeared', 'new', 'Items with a value now but not in the previous run.'],
+                 ['gone_today', 'Disappeared', 'removed', 'Items that had a value before but not now.']];
     document.getElementById('stats').innerHTML = cards.map(function (c) {
-      return '<div class="card stat ' + c[2] + '"><div class="num">' + DT.fmt(s[c[0]]) + '</div><div class="label">' + c[1] + '</div></div>';
-    }).join('');
-    document.querySelector('#sources tbody').innerHTML = s.sources.map(function (x) {
-      return '<tr><td>' + DT.esc(x.name) + '</td><td>' + (x.ok ? '<span class="pill ok">ok</span>' : '<span class="pill bad">failed</span>') +
-        '</td><td class="num">' + DT.fmt(x.count) + '</td></tr>';
+      return '<div class="card stat ' + c[2] + '"><div class="num">' + DT.fmt(s[c[0]]) + '</div><div class="label">' + c[1] + '</div><div class="hint">' + c[3] + '</div></div>';
     }).join('');
 
-    var moves = DT.biggestMoves(diff.changes, 10), note = document.getElementById('moves-note');
-    note.textContent = moves.length
-      ? 'Top ' + moves.length + ' by percent change of each item\'s headline value (price for coins, temperature for cities, air quality index for air-quality places).'
+    document.getElementById('sourcecards').innerHTML = s.sources.map(function (x) {
+      var i = DT.sourceInfo(x.name);
+      return '<div class="card sourcecard"><h3>' + DT.esc(i.title) + ' ' + (x.ok ? '<span class="pill ok">ok</span>' : '<span class="pill bad">failed</span>') + '</h3>' +
+        '<p class="small">From ' + DT.esc(i.provider) + ' · source name in the data: <code>' + DT.esc(x.name) + '</code></p>' +
+        '<p>' + DT.esc(i.what) + '</p>' +
+        '<p class="measured"><strong>Moves are measured on:</strong> ' + DT.esc(i.measured) + '</p>' +
+        '<p class="small"><strong>' + DT.fmt(x.count) + '</strong> ' + (x.count === 1 ? 'item' : 'items') + ' in the latest run. ' + DT.esc(i.cron) + '</p>' +
+        '<div class="links"><a href="browse.html#source=' + encodeURIComponent(x.name) + '">Browse these items →</a><a href="trends.html">See trends →</a></div></div>';
+    }).join('');
+
+    document.getElementById('moves-note').textContent = moves.length
+      ? 'The ' + moves.length + ' items whose headline value changed the most (in percent, up or down) since their source\'s previous run. Move % = (latest − previous) ÷ previous × 100.'
       : 'There is no previous run to compare with yet. Today\'s values are the starting point.';
     document.querySelector('#moves tbody').innerHTML = moves.map(function (m) {
-      return '<tr><td>' + DT.esc(m.item) + '</td><td>' + DT.esc(m.source) + '</td><td class="num">' + DT.value(m.column, m.old) +
+      return '<tr><td>' + itemLink(m.item_id, m.item) + '<div class="small">' + DT.esc(DT.sourceInfo(m.source).title) + '</div></td><td>' + DT.esc(DT.measureLabel(m.source)) + '</td><td class="num">' + DT.value(m.column, m.old) +
         '</td><td class="num">' + DT.value(m.column, m['new']) + '</td>' + pctCell(m.pct) + '</tr>';
     }).join('') || '<tr><td colspan="5" class="empty">Nothing to compare yet.</td></tr>';
 
-    var change = {};
+    var change = {}, body = '', lastSource = null;
     diff.changes.forEach(function (c) { change[c.item_id] = c; });
-    document.querySelector('#latest tbody').innerHTML = DT.latestRows(rows).map(function (r) {
-      var col = DT.headline(r.source), c = change[r.item_id], stale = r.date !== diff.latestDate;
-      return '<tr><td>' + DT.esc(r.item) + (stale ? '<div class="small">as of ' + r.date + '</div>' : '') + '</td><td>' + DT.esc(r.source) +
-        '</td><td class="num">' + DT.value(col, r[col]) + '</td><td class="num">' + (c ? DT.value(col, c.old) : '—') + '</td>' +
-        pctCell(c ? c.pct : null) + '<td class="detail">' + DT.esc(others(r, col)) + '</td></tr>';
-    }).join('');
+    DT.latestRows(rows).sort(function (a, b) { return a.source < b.source ? -1 : a.source > b.source ? 1 : a.item < b.item ? -1 : 1; }).forEach(function (r) {
+      var col = DT.headline(r.source), c = change[r.item_id], stale = r.date !== diff.latestDate, i = DT.sourceInfo(r.source);
+      if (r.source !== lastSource) {
+        lastSource = r.source;
+        body += '<tr class="group"><td colspan="5"><strong>' + DT.esc(i.title) + '</strong> · latest value = <strong>' + DT.esc(DT.measureLabel(r.source).toLowerCase()) + '</strong></td></tr>';
+      }
+      var band = col === 'us_aqi' && r[col] != null ? '<div class="small">' + DT.esc(DT.aqiBand(r[col])) + '</div>' : '';
+      body += '<tr><td>' + itemLink(r.item_id, r.item) + (stale ? '<div class="small">as of ' + r.date + ' (source failed since)</div>' : '') + '</td>' +
+        '<td class="num">' + DT.value(col, r[col]) + band + '</td><td class="num">' + (c ? DT.value(col, c.old) : '—') + '</td>' +
+        pctCell(c ? c.pct : null) + '<td class="detail">' + others(r, col) + '</td></tr>';
+    });
+    document.querySelector('#latest tbody').innerHTML = body;
 
     var items = diff.isNew.map(function (r) { return '<li><div class="main"><div class="title">' + DT.esc(r.item) + '</div><div class="meta">appeared · ' + DT.esc(r.source) + '</div></div></li>'; })
       .concat(diff.gone.map(function (r) { return '<li><div class="main"><div class="title">' + DT.esc(r.item) + '</div><div class="meta">disappeared · ' + DT.esc(r.source) + ' · last seen ' + r.date + '</div></div></li>'; }));
     document.getElementById('appear').innerHTML = items.join('') ||
       '<li class="empty">No item appeared or disappeared in the latest run.</li>';
+    document.getElementById('glossary').innerHTML = DT.guide.glossary();
+    document.getElementById('next').innerHTML = DT.guide.next([['browse.html', 'Browse and filter every item →'], ['trends.html', 'See how values moved over time →']]);
   }).catch(DT.showError);
 })();
 </script>
