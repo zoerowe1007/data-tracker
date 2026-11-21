@@ -1,0 +1,25 @@
+{
+  "run_time": "2026-11-21T03:18:10Z",
+  "first_run_date": "2026-11-21",
+  "days_with_success": 1,
+  "items": 24,
+  "new_today": 0,
+  "gone_today": 0,
+  "sources": [
+    {
+      "name": "stocks",
+      "ok": false,
+      "count": 0
+    },
+    {
+      "name": "crypto",
+      "ok": true,
+      "count": 12
+    },
+    {
+      "name": "weather",
+      "ok": true,
+      "count": 12
+    }
+  ]
+}
