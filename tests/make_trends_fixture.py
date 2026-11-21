@@ -32,11 +32,11 @@ def main():
             if d == 2:
                 fail = ("crypto",)                       # a day on which one source failed
             if d == 4:
-                kw = {"stocks": {"missing": ("TSN",)}}   # an item that disappears and comes back
+                kw = {"air": {"missing": ("air_waco",)}}   # an item that disappears and comes back
             if d == 5:
-                kw = {"stocks": {"missing": ("JPM",)}}   # JPM is then new on the last day
+                kw = {"air": {"missing": ("air_memphis",)}}   # Memphis is then new on the last day
             if d == 6:
-                kw = {"stocks": {"missing": ("WMT",)}}   # and WMT is gone on the last day
+                kw = {"air": {"missing": ("air_austin",)}}   # and Austin is gone on the last day
             run(tmp, now=datetime(2026, 11, 10 + d, 8, 17, 5, tzinfo=timezone.utc),
                 http=fake_http(bump=b * (1 + d % 3), fail=fail, **kw), issue=False, pause=0)
         rows = read_csv(tmp / "data" / "history.csv")

@@ -97,7 +97,7 @@ def test_trends_numbers_match_the_python_reference():
 def test_workflow_files_are_valid_yaml():
     yaml = pytest.importorskip("yaml")
     files = sorted((ROOT / ".github" / "workflows").glob("*.yml"))
-    assert len(files) == 3
+    assert len(files) == 2
     for f in files:
         doc = yaml.safe_load(f.read_text(encoding="utf-8"))
         assert doc["jobs"], f

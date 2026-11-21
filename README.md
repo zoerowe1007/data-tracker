@@ -3,8 +3,8 @@
 ![tests](https://github.com/zoerowe1007/data-tracker/actions/workflows/tests.yml/badge.svg)
 ![daily run](https://github.com/zoerowe1007/data-tracker/actions/workflows/daily.yml/badge.svg)
 
-A tool that downloads fresh values every day for **39 items** (15 stocks of DFW/NWA employers, 12 coins and 12
-cities), adds them to a history with **one row per item per day**, reports what moved, and publishes the result
+A tool that downloads fresh values every day for **36 items** (12 coins, 12 cities with weather and 12
+cities with air quality), adds them to a history with **one row per item per day**, reports what moved, and publishes the result
 as an installable website.
 
 * **Live site:** https://zoerowe1007.github.io/data-tracker/
@@ -34,9 +34,9 @@ Every source is public and needs **no login and no API key** (nothing secret is 
 
 | Source | Format | What it returns | What is kept |
 |---|---|---|---|
-| `stocks`: [Stooq](https://stooq.com) quote download, `https://stooq.com/q/l/?s=<symbols>&f=sd2t2ohlcv&h&e=csv` | CSV (`stocks.csv.gz`) | One row per symbol: symbol, date, time, open, high, low, close, volume | The request names only the 15 tracked symbols. A row whose values are `N/D` (no quote) is dropped, and any symbol that was not asked for is ignored. |
 | `crypto`: [CoinGecko](https://www.coingecko.com/en/api) `/api/v3/coins/markets?vs_currency=usd&ids=<ids>` | JSON (`crypto.json.gz`) | One object per coin with price, market cap, 24-hour volume, high, low and 24-hour change | The request names only the 12 tracked coin ids. Of each object the price, high, low, volume, change, market cap and update time are kept. |
 | `weather`: [Open-Meteo](https://open-meteo.com) `/v1/forecast?latitude=<lats>&longitude=<lons>&current=...` | JSON (`weather.json.gz`) | The current conditions for every city in one answer | One call for the 12 tracked cities. Of the `current` block the temperature (°F), humidity, wind speed (mph) and surface pressure are kept. Open-Meteo snaps to its own grid, so each answer is matched to the nearest tracked city. |
+| `air`: [Open-Meteo air quality](https://open-meteo.com/en/docs/air-quality-api) `/v1/air-quality?latitude=<lats>&longitude=<lons>&current=us_aqi,pm2_5,pm10,ozone` | JSON (`air.json.gz`) | The current air quality for every place in one answer | One call for the 12 tracked places (Texas and neighbouring states). Of the `current` block the US air quality index, PM2.5, PM10 and ozone are kept. As for weather, each answer is matched to the nearest tracked place. |
 
 The tracked items, their names, categories and the headline value of each source are in `sources.json`. If a source
 stops working, replace its entry (or add another source kind in `tracker/convert.py`); nothing else changes.
@@ -53,24 +53,28 @@ empty. Dates are UTC dates written `YYYY-MM-DD`; every run uses the UTC date of 
 | Column | Meaning | Unit | Sources |
 |---|---|---|---|
 | `date` | UTC date of the run | `YYYY-MM-DD` | all |
-| `item_id` | Key that identifies the item from one day to the next (ticker, CoinGecko id, or city slug) | text | all |
+| `item_id` | Key that identifies the item from one day to the next (CoinGecko id, or city slug; air-quality ids start with `air_`) | text | all |
 | `item` | The item's name | text | all |
-| `source` | Which source the row came from (`stocks`, `crypto`, `weather`) | text | all |
-| `category` | Group the item belongs to (industry, `Crypto`, or `DFW` / `NWA` / `Other`) | text | all |
-| `price` | Latest price: the closing price for stocks, the current price for coins | US dollars | stocks, crypto |
-| `open` | Opening price of the latest trading day | US dollars | stocks |
-| `high` | Highest price: of the latest trading day (stocks) or of the last 24 hours (coins) | US dollars | stocks, crypto |
-| `low` | Lowest price over the same period as `high` | US dollars | stocks, crypto |
-| `volume` | Amount traded: shares for stocks, US dollars traded in the last 24 hours for coins | shares / US dollars | stocks, crypto |
+| `source` | Which source the row came from (`crypto`, `weather`, `air`) | text | all |
+| `category` | Group the item belongs to (`Crypto`; `DFW` / `NWA` / `Other` for weather; `Texas` / `Neighbor states` for air) | text | all |
+| `price` | Current price of the coin | US dollars | crypto |
+| `high` | Highest price of the last 24 hours | US dollars | crypto |
+| `low` | Lowest price of the last 24 hours | US dollars | crypto |
+| `volume` | Amount traded in the last 24 hours | US dollars | crypto |
 | `change_pct` | Price change over the last 24 hours, as reported by CoinGecko | percent | crypto |
 | `market_cap` | Market capitalisation | US dollars | crypto |
 | `temp_f` | Air temperature at 2 m | degrees Fahrenheit | weather |
 | `humidity_pct` | Relative humidity at 2 m | percent | weather |
 | `wind_mph` | Wind speed at 10 m | miles per hour | weather |
 | `pressure_hpa` | Surface air pressure | hectopascal | weather |
+| `us_aqi` | US air quality index (0 is clean, 100 and above is unhealthy for sensitive groups, 500 is the top of the scale) | index points | air |
+| `pm2_5` | Particulate matter smaller than 2.5 micrometres, near the ground | micrograms per cubic metre | air |
+| `pm10` | Particulate matter smaller than 10 micrometres, near the ground | micrograms per cubic metre | air |
+| `ozone` | Ozone near the ground | micrograms per cubic metre | air |
 | `as_of` | The time the source says the values are from (kept as the source writes it) | text | all |
 
-Stooq quotes are for the last trading session, so stock values repeat on weekends and market holidays.
+Open-Meteo reports modelled values for the current hour at each place, so air-quality and weather values change a
+little every run.
 
 **Build the history file from the raw files** (this is the only thing the build reads):
 
@@ -95,7 +99,7 @@ A **move** is the percent change of an item's *headline value* since the source'
 move % = (new value - old value) / |old value| x 100
 ```
 
-The headline value is the price for stocks and coins (`price`) and the temperature for cities (`temp_f`). For
+The headline value is the price for coins (`price`), the temperature for weather cities (`temp_f`) and the US air quality index for air-quality places (`us_aqi`). For
 temperatures the denominator is never smaller than 20, so a change from 2 °F to 4 °F is 10 %, not 100 %. An item
 with no previous value has no move.
 
@@ -167,7 +171,5 @@ GitHub Actions runs both on every push (`.github/workflows/tests.yml`).
 | `tests/` | The pytest suite, its fixtures and the Node cross-check |
 | `.github/workflows/daily.yml` | The daily run: pipeline, commit, Pages rebuild |
 | `.github/workflows/tests.yml` | Runs the tests on every push |
-| `.github/workflows/probe.yml` | Manual helper that tries stock quote endpoints and records which ones answer |
-| `tools/probe_stocks.py` | The script that helper runs (writes `tools/probe_stocks.json`) |
 | `requirements.txt` | `pytest` (the pipeline itself uses only the Python standard library) |
 | `pytest.ini`, `conftest.py` | Test configuration |

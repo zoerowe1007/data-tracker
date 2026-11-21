@@ -47,16 +47,16 @@ same('gone', diff.gone.map(r => r.item_id).join(), exp.today.gone.join());
 
 // Browse: filter, search and sort
 const latest = DT.latestRows(rows);
-same('latestRows count', latest.length, 39);
+same('latestRows count', latest.length, 36);
 const crypto = DT.browseRows(latest, { source: 'crypto', sort: 'price', dir: 'desc' });
 same('browse source filter', crypto.length, 12);
 same('browse sort desc', crypto.every((r, i) => !i || crypto[i - 1].price >= r.price), true);
 same('browse search', DT.browseRows(latest, { q: 'dal' }).map(r => r.item_id).join(), 'dallas');
-same('browse starred', DT.browseRows(latest, { starred: ['WMT', 'bitcoin'] }).length, 2);
+same('browse starred', DT.browseRows(latest, { starred: ['air_memphis', 'bitcoin'] }).length, 2);
 const withGaps = DT.browseRows(latest, { sort: 'market_cap', dir: 'asc' });
-same('browse empties last (asc)', withGaps.slice(-27).every(r => r.market_cap == null), true);
+same('browse empties last (asc)', withGaps.slice(-24).every(r => r.market_cap == null), true);
 const desc = DT.browseRows(latest, { sort: 'market_cap', dir: 'desc' });
-same('browse empties last (desc)', desc.slice(-27).every(r => r.market_cap == null), true);
+same('browse empties last (desc)', desc.slice(-24).every(r => r.market_cap == null), true);
 
 console.log(bad ? `${bad} of ${checked} checks differ` : `all ${checked} checks match the Python reference`);
 process.exit(bad ? 1 : 0);
