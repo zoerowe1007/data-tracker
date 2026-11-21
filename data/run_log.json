@@ -1,18 +1,17 @@
 {
  "2026-11-21": [
   {
-   "name": "stocks",
-   "ok": false,
-   "count": 0,
-   "error": "HTTP 404 from https://stooq.com/q/l/"
-  },
-  {
    "name": "crypto",
    "ok": true,
    "count": 12
   },
   {
    "name": "weather",
+   "ok": true,
+   "count": 12
+  },
+  {
+   "name": "air",
    "ok": true,
    "count": 12
   }
