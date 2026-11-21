@@ -167,5 +167,7 @@ GitHub Actions runs both on every push (`.github/workflows/tests.yml`).
 | `tests/` | The pytest suite, its fixtures and the Node cross-check |
 | `.github/workflows/daily.yml` | The daily run: pipeline, commit, Pages rebuild |
 | `.github/workflows/tests.yml` | Runs the tests on every push |
+| `.github/workflows/probe.yml` | Manual helper that tries stock quote endpoints and records which ones answer |
+| `tools/probe_stocks.py` | The script that helper runs (writes `tools/probe_stocks.json`) |
 | `requirements.txt` | `pytest` (the pipeline itself uses only the Python standard library) |
 | `pytest.ini`, `conftest.py` | Test configuration |
