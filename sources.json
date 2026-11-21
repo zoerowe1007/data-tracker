@@ -1,58 +1,55 @@
 {
-  "sources": [
-    {
-      "name": "stocks", "label": "Employer stocks (Stooq)", "kind": "stooq", "format": "csv", "headline": "price",
-      "items": [
-        {"id": "WMT", "item": "Walmart", "symbol": "wmt.us", "category": "Retail"},
-        {"id": "TSN", "item": "Tyson Foods", "symbol": "tsn.us", "category": "Food"},
-        {"id": "T", "item": "AT&T", "symbol": "t.us", "category": "Telecom"},
-        {"id": "AAL", "item": "American Airlines", "symbol": "aal.us", "category": "Airlines"},
-        {"id": "LUV", "item": "Southwest Airlines", "symbol": "luv.us", "category": "Airlines"},
-        {"id": "TXN", "item": "Texas Instruments", "symbol": "txn.us", "category": "Technology"},
-        {"id": "COF", "item": "Capital One", "symbol": "cof.us", "category": "Finance"},
-        {"id": "JPM", "item": "JPMorgan Chase", "symbol": "jpm.us", "category": "Finance"},
-        {"id": "SCHW", "item": "Charles Schwab", "symbol": "schw.us", "category": "Finance"},
-        {"id": "WFC", "item": "Wells Fargo", "symbol": "wfc.us", "category": "Finance"},
-        {"id": "TM", "item": "Toyota Motor", "symbol": "tm.us", "category": "Auto"},
-        {"id": "XOM", "item": "ExxonMobil", "symbol": "xom.us", "category": "Energy"},
-        {"id": "KMB", "item": "Kimberly-Clark", "symbol": "kmb.us", "category": "Consumer goods"},
-        {"id": "MCK", "item": "McKesson", "symbol": "mck.us", "category": "Healthcare"},
-        {"id": "JBHT", "item": "J.B. Hunt", "symbol": "jbht.us", "category": "Transportation"}
-      ]
-    },
-    {
-      "name": "crypto", "label": "Crypto prices (CoinGecko)", "kind": "coingecko", "format": "json", "headline": "price",
-      "items": [
-        {"id": "bitcoin", "item": "Bitcoin", "category": "Crypto"},
-        {"id": "ethereum", "item": "Ethereum", "category": "Crypto"},
-        {"id": "ripple", "item": "XRP", "category": "Crypto"},
-        {"id": "binancecoin", "item": "BNB", "category": "Crypto"},
-        {"id": "solana", "item": "Solana", "category": "Crypto"},
-        {"id": "dogecoin", "item": "Dogecoin", "category": "Crypto"},
-        {"id": "cardano", "item": "Cardano", "category": "Crypto"},
-        {"id": "tron", "item": "TRON", "category": "Crypto"},
-        {"id": "chainlink", "item": "Chainlink", "category": "Crypto"},
-        {"id": "litecoin", "item": "Litecoin", "category": "Crypto"},
-        {"id": "stellar", "item": "Stellar", "category": "Crypto"},
-        {"id": "avalanche-2", "item": "Avalanche", "category": "Crypto"}
-      ]
-    },
-    {
-      "name": "weather", "label": "City weather (Open-Meteo)", "kind": "openmeteo", "format": "json", "headline": "temp_f",
-      "items": [
-        {"id": "dallas", "item": "Dallas, TX", "lat": 32.7767, "lon": -96.7970, "category": "DFW"},
-        {"id": "fortworth", "item": "Fort Worth, TX", "lat": 32.7555, "lon": -97.3308, "category": "DFW"},
-        {"id": "arlington", "item": "Arlington, TX", "lat": 32.7357, "lon": -97.1081, "category": "DFW"},
-        {"id": "denton", "item": "Denton, TX", "lat": 33.2148, "lon": -97.1331, "category": "DFW"},
-        {"id": "mckinney", "item": "McKinney, TX", "lat": 33.1972, "lon": -96.6398, "category": "DFW"},
-        {"id": "bentonville", "item": "Bentonville, AR", "lat": 36.3729, "lon": -94.2088, "category": "NWA"},
-        {"id": "fayetteville", "item": "Fayetteville, AR", "lat": 36.0626, "lon": -94.1574, "category": "NWA"},
-        {"id": "fortsmith", "item": "Fort Smith, AR", "lat": 35.3859, "lon": -94.3985, "category": "NWA"},
-        {"id": "littlerock", "item": "Little Rock, AR", "lat": 34.7465, "lon": -92.2896, "category": "Other"},
-        {"id": "tulsa", "item": "Tulsa, OK", "lat": 36.1540, "lon": -95.9928, "category": "Other"},
-        {"id": "okc", "item": "Oklahoma City, OK", "lat": 35.4676, "lon": -97.5164, "category": "Other"},
-        {"id": "houston", "item": "Houston, TX", "lat": 29.7604, "lon": -95.3698, "category": "Other"}
-      ]
-    }
-  ]
+ "sources": [
+  {
+   "name": "crypto", "label": "Crypto prices (CoinGecko)", "kind": "coingecko", "format": "json", "headline": "price",
+   "items": [
+    {"id": "bitcoin", "item": "Bitcoin", "category": "Crypto"},
+    {"id": "ethereum", "item": "Ethereum", "category": "Crypto"},
+    {"id": "ripple", "item": "XRP", "category": "Crypto"},
+    {"id": "binancecoin", "item": "BNB", "category": "Crypto"},
+    {"id": "solana", "item": "Solana", "category": "Crypto"},
+    {"id": "dogecoin", "item": "Dogecoin", "category": "Crypto"},
+    {"id": "cardano", "item": "Cardano", "category": "Crypto"},
+    {"id": "tron", "item": "TRON", "category": "Crypto"},
+    {"id": "chainlink", "item": "Chainlink", "category": "Crypto"},
+    {"id": "litecoin", "item": "Litecoin", "category": "Crypto"},
+    {"id": "stellar", "item": "Stellar", "category": "Crypto"},
+    {"id": "avalanche-2", "item": "Avalanche", "category": "Crypto"}
+   ]
+  },
+  {
+   "name": "weather", "label": "City weather (Open-Meteo)", "kind": "openmeteo", "format": "json", "headline": "temp_f",
+   "items": [
+    {"id": "dallas", "item": "Dallas, TX", "lat": 32.7767, "lon": -96.797, "category": "DFW"},
+    {"id": "fortworth", "item": "Fort Worth, TX", "lat": 32.7555, "lon": -97.3308, "category": "DFW"},
+    {"id": "arlington", "item": "Arlington, TX", "lat": 32.7357, "lon": -97.1081, "category": "DFW"},
+    {"id": "denton", "item": "Denton, TX", "lat": 33.2148, "lon": -97.1331, "category": "DFW"},
+    {"id": "mckinney", "item": "McKinney, TX", "lat": 33.1972, "lon": -96.6398, "category": "DFW"},
+    {"id": "bentonville", "item": "Bentonville, AR", "lat": 36.3729, "lon": -94.2088, "category": "NWA"},
+    {"id": "fayetteville", "item": "Fayetteville, AR", "lat": 36.0626, "lon": -94.1574, "category": "NWA"},
+    {"id": "fortsmith", "item": "Fort Smith, AR", "lat": 35.3859, "lon": -94.3985, "category": "NWA"},
+    {"id": "littlerock", "item": "Little Rock, AR", "lat": 34.7465, "lon": -92.2896, "category": "Other"},
+    {"id": "tulsa", "item": "Tulsa, OK", "lat": 36.154, "lon": -95.9928, "category": "Other"},
+    {"id": "okc", "item": "Oklahoma City, OK", "lat": 35.4676, "lon": -97.5164, "category": "Other"},
+    {"id": "houston", "item": "Houston, TX", "lat": 29.7604, "lon": -95.3698, "category": "Other"}
+   ]
+  },
+  {
+   "name": "air", "label": "City air quality (Open-Meteo)", "kind": "openmeteo_air", "format": "json", "headline": "us_aqi",
+   "items": [
+    {"id": "air_austin", "item": "Austin, TX", "lat": 30.2672, "lon": -97.7431, "category": "Texas"},
+    {"id": "air_sanantonio", "item": "San Antonio, TX", "lat": 29.4241, "lon": -98.4936, "category": "Texas"},
+    {"id": "air_elpaso", "item": "El Paso, TX", "lat": 31.7619, "lon": -106.485, "category": "Texas"},
+    {"id": "air_lubbock", "item": "Lubbock, TX", "lat": 33.5779, "lon": -101.8552, "category": "Texas"},
+    {"id": "air_waco", "item": "Waco, TX", "lat": 31.5493, "lon": -97.1467, "category": "Texas"},
+    {"id": "air_shreveport", "item": "Shreveport, LA", "lat": 32.5252, "lon": -93.7502, "category": "Neighbor states"},
+    {"id": "air_memphis", "item": "Memphis, TN", "lat": 35.1495, "lon": -90.049, "category": "Neighbor states"},
+    {"id": "air_kansascity", "item": "Kansas City, MO", "lat": 39.0997, "lon": -94.5786, "category": "Neighbor states"},
+    {"id": "air_springfieldmo", "item": "Springfield, MO", "lat": 37.209, "lon": -93.2923, "category": "Neighbor states"},
+    {"id": "air_wichita", "item": "Wichita, KS", "lat": 37.6872, "lon": -97.3301, "category": "Neighbor states"},
+    {"id": "air_albuquerque", "item": "Albuquerque, NM", "lat": 35.0844, "lon": -106.6504, "category": "Neighbor states"},
+    {"id": "air_neworleans", "item": "New Orleans, LA", "lat": 29.9511, "lon": -90.0715, "category": "Neighbor states"}
+   ]
+  }
+ ]
 }

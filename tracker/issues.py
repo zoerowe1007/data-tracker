@@ -51,8 +51,8 @@ def build_issue(date, rows, sources, results, status, site_url=""):
     lines += [f"- {r['item']} ({r['source']})" for r in diff["new"]] or ["None."]
     lines += ["", f"## Disappeared ({len(diff['gone'])})", ""]
     lines += [f"- {r['item']} ({r['source']})" for r in diff["gone"]] or ["None."]
-    lines += ["", "_A move is the percent change of an item's headline value (price for stocks and crypto, "
-              "temperature in °F for weather) since that source's previous run._", ""]
+    lines += ["", "_A move is the percent change of an item's headline value (price for crypto, "
+              "temperature in °F for weather, US air quality index for air) since that source's previous run._", ""]
     return date, "\n".join(lines)
 
 

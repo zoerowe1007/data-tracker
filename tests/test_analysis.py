@@ -3,10 +3,10 @@ import pytest
 from tracker.analysis import biggest_moves, compare, move_pct
 from tracker.common import COLUMNS
 
-SRC = [{"name": "stocks", "headline": "price"}, {"name": "weather", "headline": "temp_f"}]
+SRC = [{"name": "air", "headline": "price"}, {"name": "weather", "headline": "temp_f"}]
 
 
-def row(date, item_id, source="stocks", **v):
+def row(date, item_id, source="air", **v):
     r = {c: "" for c in COLUMNS}
     r.update(date=date, item_id=item_id, item=item_id.title(), source=source)
     r.update(v)
@@ -59,14 +59,14 @@ def test_first_run_has_nothing_to_compare():
 
 def test_a_source_that_failed_today_is_not_compared():
     rows = [row("2026-11-16", "a", price=1.0), row("2026-11-16", "x", "weather", temp_f=50.0),
-            row("2026-11-17", "x", "weather", temp_f=55.0)]  # stocks has no raw file on the 17th
+            row("2026-11-17", "x", "weather", temp_f=55.0)]  # air has no raw file on the 17th
     diff = compare(rows, SRC)
     assert diff["gone"] == [] and {c["source"] for c in diff["changes"]} == {"weather"}
-    assert diff["latest"] == {"stocks": "2026-11-16", "weather": "2026-11-17"}
+    assert diff["latest"] == {"air": "2026-11-16", "weather": "2026-11-17"}
 
 
 def test_comparison_skips_days_a_source_has_no_file():
     rows = [row("2026-11-14", "a", price=100.0), row("2026-11-17", "a", price=110.0),
             row("2026-11-16", "z", "weather", temp_f=1.0), row("2026-11-17", "z", "weather", temp_f=1.0)]
     by = {c["item_id"]: c for c in compare(rows, SRC)["changes"]}
-    assert by["a"]["old"] == 100.0  # the previous run for stocks is the 14th, not the 16th
+    assert by["a"]["old"] == 100.0  # the previous run for air is the 14th, not the 16th

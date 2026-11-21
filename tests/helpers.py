@@ -8,21 +8,6 @@ SOURCES = load_sources()
 BY_NAME = {s["name"]: s for s in SOURCES}
 
 
-def stooq_bytes(cfg, bump=0.0, missing=(), nd=()):
-    lines = ["Symbol,Date,Time,Open,High,Low,Close,Volume"]
-    for n, it in enumerate(cfg["items"]):
-        sym = it["symbol"].upper()
-        if it["id"] in missing:
-            continue
-        if it["id"] in nd:
-            lines.append(f"{sym},N/D,N/D,N/D,N/D,N/D,N/D,N/D")
-            continue
-        base = 50 + n * 10 + bump
-        lines.append(f"{sym},2026-11-16,22:00:09,{base - 1},{base + 2},{base - 2},{base},{1000000 + n}")
-    lines.append("UNTRACKED.US,2026-11-16,22:00:09,1,2,0.5,1.5,10")  # a symbol we did not ask for
-    return ("\n".join(lines) + "\n").encode()
-
-
 def coingecko_bytes(cfg, bump=0.0, missing=()):
     out = []
     for n, it in enumerate(cfg["items"]):
@@ -49,16 +34,28 @@ def openmeteo_bytes(cfg, bump=0.0, skip=()):
     return json.dumps(out).encode()
 
 
+def air_bytes(cfg, bump=0.0, missing=()):
+    out = []
+    for n, it in enumerate(cfg["items"]):
+        if it["id"] in missing:
+            continue
+        out.append({"latitude": round(it["lat"] + 0.04, 2), "longitude": round(it["lon"] - 0.05, 2),  # snapped grid
+                    "current": {"time": "2026-11-17T20:00", "us_aqi": 40 + n * 5 + bump, "pm2_5": 8.0 + n + bump / 10,
+                                "pm10": 15.0 + n * 2, "ozone": 60.0 + n}})
+    return json.dumps(out).encode()
+
+
 def fake_http(bump=0.0, fail=(), **kw):
     """A stand-in for tracker.http.fetch_bytes. Sources named in `fail` raise like a dead download."""
     def http(url, **_):
         for name, cfg in BY_NAME.items():
-            marker = {"stocks": "stooq.com", "crypto": "coingecko.com", "weather": "open-meteo.com"}[name]
+            marker = {"air": "air-quality-api.open-meteo.com", "crypto": "coingecko.com",
+                      "weather": "https://api.open-meteo.com"}[name]
             if marker in url:
                 if name in fail:
                     raise HttpError(f"HTTP 503 from {marker}")
-                if name == "stocks":
-                    return stooq_bytes(cfg, bump, **kw.get("stocks", {}))
+                if name == "air":
+                    return air_bytes(cfg, bump, **kw.get("air", {}))
                 if name == "crypto":
                     return coingecko_bytes(cfg, bump, **kw.get("crypto", {}))
                 return openmeteo_bytes(cfg, bump, **kw.get("weather", {}))

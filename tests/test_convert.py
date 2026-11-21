@@ -4,27 +4,34 @@ import pytest
 
 from tracker.common import COLUMNS, NUMERIC
 from tracker.convert import ConvertError, build_url, convert
-from tests.helpers import BY_NAME, coingecko_bytes, openmeteo_bytes, stooq_bytes
+from tests.helpers import BY_NAME, air_bytes, coingecko_bytes, openmeteo_bytes
 
 
-def test_stocks_csv_to_common_columns():
-    cfg = BY_NAME["stocks"]
-    rows = convert(stooq_bytes(cfg), cfg)
-    assert len(rows) == len(cfg["items"])  # the untracked symbol is dropped
-    r = {x["item_id"]: x for x in rows}["WMT"]
+def test_air_json_to_common_columns():
+    cfg = BY_NAME["air"]
+    rows = convert(air_bytes(cfg), cfg)
+    assert len(rows) == len(cfg["items"])
+    r = {x["item_id"]: x for x in rows}["air_austin"]
     assert list(r) == COLUMNS
-    assert (r["item"], r["source"], r["category"]) == ("Walmart", "stocks", "Retail")
-    assert r["price"] == 50.0 and r["open"] == 49.0 and r["high"] == 52.0 and r["low"] == 48.0
-    assert r["volume"] == 1000000.0
-    assert r["as_of"] == "2026-11-16 22:00:09"
+    assert (r["item"], r["source"], r["category"]) == ("Austin, TX", "air", "Texas")
+    assert r["us_aqi"] == 40.0 and r["pm2_5"] == 8.0 and r["pm10"] == 15.0 and r["ozone"] == 60.0
+    assert r["as_of"] == "2026-11-17T20:00"
     assert r["temp_f"] == "" and r["market_cap"] == ""  # values this source does not report stay empty
 
 
-def test_stocks_nd_symbol_has_no_row():
-    cfg = BY_NAME["stocks"]
-    rows = convert(stooq_bytes(cfg, nd=("TSN",)), cfg)
-    assert "TSN" not in {r["item_id"] for r in rows}
-    assert len(rows) == len(cfg["items"]) - 1
+def test_air_answers_are_matched_to_cities_by_nearest_location():
+    cfg = BY_NAME["air"]
+    got = {r["item_id"]: r for r in convert(air_bytes(cfg), cfg)}
+    assert got["air_sanantonio"]["us_aqi"] == 45.0 and got["air_sanantonio"]["pm2_5"] == 9.0
+
+
+def test_an_air_place_without_a_reading_has_no_row():
+    cfg = BY_NAME["air"]
+    rows = convert(air_bytes(cfg, missing=("air_waco",)), cfg)
+    assert "air_waco" not in {r["item_id"] for r in rows} and len(rows) == len(cfg["items"]) - 1
+    data = json.loads(air_bytes(cfg))
+    data[0]["current"]["us_aqi"] = None
+    assert len(convert(json.dumps(data).encode(), cfg)) == len(cfg["items"]) - 1
 
 
 def test_crypto_json_to_common_columns():
@@ -57,13 +64,13 @@ def test_a_single_weather_answer_is_still_read():
 
 def test_every_numeric_column_is_a_float_or_empty():
     for cfg in BY_NAME.values():
-        fn = {"stocks": stooq_bytes, "crypto": coingecko_bytes, "weather": openmeteo_bytes}[cfg["name"]]
+        fn = {"air": air_bytes, "crypto": coingecko_bytes, "weather": openmeteo_bytes}[cfg["name"]]
         for r in convert(fn(cfg), cfg):
             assert all(r[c] == "" or isinstance(r[c], float) for c in NUMERIC)
             assert sum(r[c] != "" for c in NUMERIC) >= 2  # at least two numeric values per item
 
 
-@pytest.mark.parametrize("name,junk", [("stocks", b"<html>blocked</html>"), ("crypto", b"{not json"),
+@pytest.mark.parametrize("name,junk", [("air", b"<html>blocked</html>"), ("air", b'{"error": true, "reason": "limit"}'), ("crypto", b"{not json"),
                                        ("weather", b'{"error": true, "reason": "limit"}'),
                                        ("crypto", b'{"status": {"error_code": 429}}')])
 def test_unreadable_responses_raise_or_give_no_rows(name, junk):
@@ -78,6 +85,8 @@ def test_unreadable_responses_raise_or_give_no_rows(name, junk):
 def test_requests_ask_only_for_the_tracked_items():
     url = build_url(BY_NAME["crypto"])
     assert "ids=bitcoin,ethereum" in url and "vs_currency=usd" in url
-    assert build_url(BY_NAME["stocks"]).count(".us") == len(BY_NAME["stocks"]["items"])
+    air = build_url(BY_NAME["air"])
+    assert air.startswith("https://air-quality-api.open-meteo.com/") and "current=us_aqi,pm2_5,pm10,ozone" in air
+    assert len(air.split("latitude=")[1].split("&")[0].split(",")) == len(BY_NAME["air"]["items"])
     assert "latitude=32.7767," in build_url(BY_NAME["weather"])
     assert "fahrenheit" in build_url(BY_NAME["weather"])

@@ -6,10 +6,12 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # The first four columns are fixed by the assignment; the rest are ours.
 COLUMNS = ["date", "item_id", "item", "source", "category",
-           "price", "open", "high", "low", "volume", "change_pct", "market_cap",
-           "temp_f", "humidity_pct", "wind_mph", "pressure_hpa", "as_of"]
-NUMERIC = ["price", "open", "high", "low", "volume", "change_pct", "market_cap",
-           "temp_f", "humidity_pct", "wind_mph", "pressure_hpa"]
+           "price", "high", "low", "volume", "change_pct", "market_cap",
+           "temp_f", "humidity_pct", "wind_mph", "pressure_hpa",
+           "us_aqi", "pm2_5", "pm10", "ozone", "as_of"]
+NUMERIC = ["price", "high", "low", "volume", "change_pct", "market_cap",
+           "temp_f", "humidity_pct", "wind_mph", "pressure_hpa",
+           "us_aqi", "pm2_5", "pm10", "ozone"]
 TEXT = [c for c in COLUMNS if c not in NUMERIC]
 
 
