@@ -17,34 +17,47 @@
     <a class="brand" href="index.html">Data Tracker</a>
     <nav aria-label="Main">
       <ul>
-        <li><a class="link" href="index.html">Today</a></li>
-        <li><a class="link" href="browse.html">Browse</a></li>
-        <li><a class="link" href="trends.html" aria-current="page">Trends</a></li>
+        <li><a class="link" href="index.html">Today<small>what changed</small></a></li>
+        <li><a class="link" href="browse.html">Browse<small>look up items</small></a></li>
+        <li><a class="link" href="trends.html" aria-current="page">Trends<small>how values moved</small></a></li>
       </ul>
     </nav>
   </div>
 </header>
 <div id="banner" class="banner" role="status" hidden></div>
 <section class="hero"><div class="hero-inner"><h1>Trends</h1>
-<p class="sub">Findings and charts computed in your browser from the whole history.</p></div></section>
+<p class="sub">How the values changed day by day, and what the whole history says so far.</p></div></section>
 <main id="content">
-<p class="sub" id="intro">Loading the history…</p>
+<div class="explain">
+  <h2>How to read this page</h2>
+  <p id="intro">Loading the history…</p>
+  <ul>
+    <li><strong>Chart explorer</strong> (first section): pick items and see each of their readings as a line over the days.</li>
+    <li><strong>What the history shows</strong> (second section): five findings. Each has a headline, a plain-words explanation, the exact way the number is computed, a chart and, under "Show the numbers", the table behind the chart.</li>
+    <li>Nothing is typed in by hand: your browser reads <code>data/history.csv</code> and calculates everything, so the page grows smarter as days are added. With only a few days, some findings say they need more history.</li>
+  </ul>
+</div>
 
 <h2>Chart explorer</h2>
 <div class="card">
-  <strong>Pick the items to chart.</strong> <span class="small">Each chart below shows one value over the days for the picked items that report it.</span>
+  <p style="margin-top:0"><strong>1. Pick items.</strong> Tick any coins or places below; the charts under it update straight away. <span id="picked-note" class="small"></span></p>
   <div id="picker"></div>
-  <div style="margin-top:10px"><div class="switch" role="group" aria-label="Scale"><button type="button" id="m-index" aria-pressed="true">Index (first day = 100)</button><button type="button" id="m-value" aria-pressed="false">Actual values</button></div>
-  <span class="small"> Index puts items with very different sizes on one scale. Percent values (change, humidity) are always shown as they are.</span></div>
+  <p><strong>2. Choose the scale.</strong></p>
+  <div class="switch" role="group" aria-label="Scale"><button type="button" id="m-index" aria-pressed="true">Index (first day = 100)</button><button type="button" id="m-value" aria-pressed="false">Actual values</button></div>
+  <p class="small"><strong>Index</strong> lets items of very different size share a chart: every line starts at 100, so 110 means "up 10% since the first day". <strong>Actual values</strong> shows the real numbers (dollars, °F …), best for one item or items of similar size. Percent readings (24h change, humidity) always show their real values. Each chart shows one reading; a chart appears only if a picked item reports it.</p>
 </div>
 <div id="charts"></div>
 
 <h2>What the history shows</h2>
+<p class="sub">Five findings, each worked out from the history file. "In plain words" says what it means; "How it is computed" gives the exact rule.</p>
 <div id="findings"></div>
+<div id="glossary" style="margin-top:28px"></div>
+<div id="next"></div>
 </main>
 <footer>Updated every day by GitHub Actions. Coins from CoinGecko, weather and air quality from Open-Meteo.
 <a href="https://github.com/zoerowe1007/data-tracker">Source code and data</a></footer>
 <script src="assets/common.js"></script>
+<script src="assets/guide.js"></script>
 <script src="assets/trends-calc.js"></script>
 <script src="assets/charts.js"></script>
 <script>
@@ -70,7 +83,7 @@
       if (!series.length) return;
       var c = DT.COLS[col], unit = c.unit && c.unit !== '$' ? ' (' + c.unit + ')' : (c.unit === '$' ? ' (USD)' : '');
       var title = c.label + unit + (useIndex ? ', index: first day = 100' : '');
-      html += '<div class="card chart-card"><h3>' + DT.esc(title) + '</h3>' +
+      html += '<div class="card chart-card"><h3>' + DT.esc(title) + '</h3><p class="small" style="margin:0 0 6px">' + DT.esc(DT.HELP[col][0]) + '.' + (useIndex ? ' Each line starts at 100 on the item\'s first day.' : '') + '</p>' +
         DTCharts.line({ label: title + ' by day', dates: dates, series: series }) + DTCharts.legend(series) + '</div>';
     });
     $('charts').innerHTML = html || '<div class="card empty">Pick at least one item above.</div>';
@@ -153,6 +166,13 @@
     } else {
       out.push(section('Not enough history yet to measure volatility (' + DT.plural(n, 'day') + ' so far)', ['Needs at least three days, which gives two daily moves per item.', how('the sample standard deviation of each item\'s day-to-day percent moves.')]));
     }
+    var meaning = [
+      'Every item is ranked by how much its headline value has changed since it was first recorded. It answers: what has gone up the most and what has fallen the most so far?',
+      'The most dramatic single-day jump in the history, plus which days were wildest overall. It answers: when did things move the most?',
+      'How different the weather is between the warmest and coolest city we track. It answers: how spread out are the cities right now?',
+      'Coins, weather and air quality are measured in different units (dollars, °F, index points), so they are compared as percent change. It answers: which kind of data has changed the most?',
+      'Volatility is how bumpy an item\'s day-to-day changes are: a high number means big ups and downs, a low number means steady. It answers: which items are the least predictable?'];
+    out = out.map(function (h, i) { return h.replace('</h2>', '</h2><p class="meaning"><strong>In plain words:</strong> ' + meaning[i] + '</p>'); });
     $('findings').innerHTML = out.join('');
   }
 
@@ -163,7 +183,15 @@
       DT.plural(T.items, 'item') + '. Every number on this page is computed in your browser from data/history.csv, so the page changes as the history grows.';
     DT.latestRows(rows).forEach(function (r) { (groups[r.source] = groups[r.source] || []).push({ id: r.item_id, name: r.item }); });
     Object.keys(groups).forEach(function (s) { groups[s].sort(function (a, b) { return a.name < b.name ? -1 : 1; }); ids = ids.concat(groups[s].slice(0, 2).map(function (x) { return x.id; })); });
+    var h = DT.hash();
+    if (h.item) {
+      var found = null;
+      Object.keys(groups).forEach(function (g) { groups[g].forEach(function (x) { if (x.id === h.item) found = x; }); });
+      if (found) { ids = [found.id]; $('picked-note').textContent = 'Showing ' + found.name + ' because you came from a link. Tick more items to compare.'; }
+    }
     picker(); charts(); findings(T);
+    $('glossary').innerHTML = DT.guide.glossary();
+    $('next').innerHTML = DT.guide.next([['index.html', '← Today: what changed'], ['browse.html', 'Browse: look up every item →']]);
     $('picker').addEventListener('change', function (e) {
       var id = e.target.getAttribute('data-id'), i = ids.indexOf(id);
       if (i === -1) ids.push(id); else ids.splice(i, 1);

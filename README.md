@@ -163,6 +163,7 @@ GitHub Actions runs both on every push (`.github/workflows/tests.yml`).
 | `index.html`, `browse.html`, `trends.html` | The three pages |
 | `assets/style.css` | Fonts and colors shared by the three pages |
 | `assets/common.js` | CSV parsing, number formatting, the move rule, run comparison, Browse filtering, shortlist, data loading |
+| `assets/guide.js` | Plain-language labels: what each source and column means, the glossary, the data-flow strip and the links between pages |
 | `assets/charts.js` | Line, bar and column charts drawn as SVG |
 | `assets/trends-calc.js` | Every number on the Trends page |
 | `assets/icons/*.png` | App icons |
