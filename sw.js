@@ -2,10 +2,10 @@
    Online: every request goes to the network (so the data is always fresh) and the
    answer is saved. Offline: the saved copy is used and marked (x-from-cache) so the
    page can say it is showing the last data it loaded. */
-const CACHE = 'data-tracker-v1';
+const CACHE = 'data-tracker-v2';
 const SHELL = [
   './', 'index.html', 'browse.html', 'trends.html', 'manifest.webmanifest',
-  'assets/style.css', 'assets/common.js', 'assets/charts.js', 'assets/trends-calc.js',
+  'assets/style.css', 'assets/common.js', 'assets/guide.js', 'assets/charts.js', 'assets/trends-calc.js',
   'assets/icons/icon-192.png', 'assets/icons/icon-512.png',
   'data/status.json', 'data/history.csv'
 ];
