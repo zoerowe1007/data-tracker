@@ -71,3 +71,39 @@ date,item_id,item,source,category,price,high,low,volume,change_pct,market_cap,te
 2026-11-22,stellar,Stellar,crypto,Crypto,0.12751,0.129966,0.126374,79963775,-0.61444,4519980287,,,,,,,,,2026-11-22T16:14:57.000Z
 2026-11-22,tron,TRON,crypto,Crypto,0.304822,0.306321,0.303102,259758169,-0.04198,2.897194738e+10,,,,,,,,,2026-11-22T16:14:57.000Z
 2026-11-22,tulsa,"Tulsa, OK",weather,Other,,,,,,,46.8,86,16.1,992.1,,,,,2026-11-22T16:15
+2026-11-23,air_albuquerque,"Albuquerque, NM",air,Neighbor states,,,,,,,,,,,35,11.5,13.6,52,2026-11-23T01:00
+2026-11-23,air_austin,"Austin, TX",air,Texas,,,,,,,,,,,38,1.9,2,49,2026-11-23T01:00
+2026-11-23,air_elpaso,"El Paso, TX",air,Texas,,,,,,,,,,,43,4.8,10.5,83,2026-11-23T01:00
+2026-11-23,air_kansascity,"Kansas City, MO",air,Neighbor states,,,,,,,,,,,27,6.7,7.1,48,2026-11-23T01:00
+2026-11-23,air_lubbock,"Lubbock, TX",air,Texas,,,,,,,,,,,34,3.8,4.6,59,2026-11-23T01:00
+2026-11-23,air_memphis,"Memphis, TN",air,Neighbor states,,,,,,,,,,,51,3.4,3.6,58,2026-11-23T01:00
+2026-11-23,air_neworleans,"New Orleans, LA",air,Neighbor states,,,,,,,,,,,55,10.7,11.8,43,2026-11-23T01:00
+2026-11-23,air_sanantonio,"San Antonio, TX",air,Texas,,,,,,,,,,,39,2.7,2.8,55,2026-11-23T01:00
+2026-11-23,air_shreveport,"Shreveport, LA",air,Neighbor states,,,,,,,,,,,52,8.8,10.7,64,2026-11-23T01:00
+2026-11-23,air_springfieldmo,"Springfield, MO",air,Neighbor states,,,,,,,,,,,23,1.6,1.8,54,2026-11-23T01:00
+2026-11-23,air_waco,"Waco, TX",air,Texas,,,,,,,,,,,33,2.9,3.1,50,2026-11-23T01:00
+2026-11-23,air_wichita,"Wichita, KS",air,Neighbor states,,,,,,,,,,,29,4.7,5.4,54,2026-11-23T01:00
+2026-11-23,arlington,"Arlington, TX",weather,DFW,,,,,,,55.1,52,8.5,997.9,,,,,2026-11-23T01:00
+2026-11-23,avalanche-2,Avalanche,crypto,Crypto,6.64,6.76,6.47,116517936,1.04726,2964360600,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,bentonville,"Bentonville, AR",weather,NWA,,,,,,,42.6,81,8.4,972.7,,,,,2026-11-23T01:00
+2026-11-23,binancecoin,BNB,crypto,Crypto,557.89,559.9,536.15,494502958,1.51993,7.33758657e+10,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,bitcoin,Bitcoin,crypto,Crypto,60936,61447,58696,2.79706957e+10,1.38807,1.225963362e+12,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,cardano,Cardano,crypto,Crypto,0.14316,0.147039,0.140837,186413380,-0.75488,5379868597,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,chainlink,Chainlink,crypto,Crypto,8.83,8.88,8.49,158397581,2.62433,6770820057,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,dallas,"Dallas, TX",weather,DFW,,,,,,,53.4,65,3.9,1003.5,,,,,2026-11-23T01:00
+2026-11-23,denton,"Denton, TX",weather,DFW,,,,,,,53.9,55,10.5,996.3,,,,,2026-11-23T01:00
+2026-11-23,dogecoin,Dogecoin,crypto,Crypto,0.054906,0.055771,0.05372,338926811,-0.42741,8612105333,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,ethereum,Ethereum,crypto,Crypto,1712.56,1726.27,1646.2,8122297345,1.82536,2.093492414e+11,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,fayetteville,"Fayetteville, AR",weather,NWA,,,,,,,43.8,84,10.6,968,,,,,2026-11-23T01:00
+2026-11-23,fortsmith,"Fort Smith, AR",weather,NWA,,,,,,,47.8,86,4.3,1004.3,,,,,2026-11-23T01:00
+2026-11-23,fortworth,"Fort Worth, TX",weather,DFW,,,,,,,54.4,58,6.7,997.5,,,,,2026-11-23T01:00
+2026-11-23,houston,"Houston, TX",weather,Other,,,,,,,64.7,60,8.6,1013.9,,,,,2026-11-23T01:00
+2026-11-23,litecoin,Litecoin,crypto,Crypto,39.83,40.17,38.88,156738075,0.24839,3101332999,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,littlerock,"Little Rock, AR",weather,Other,,,,,,,55.2,80,12.8,1005.5,,,,,2026-11-23T01:00
+2026-11-23,mckinney,"McKinney, TX",weather,DFW,,,,,,,52.3,63,4.5,997.8,,,,,2026-11-23T01:00
+2026-11-23,okc,"Oklahoma City, OK",weather,Other,,,,,,,45.4,53,11.9,978.4,,,,,2026-11-23T01:00
+2026-11-23,ripple,XRP,crypto,Crypto,0.920523,0.936721,0.911127,1044284238,-0.90892,5.846696672e+10,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,solana,Solana,crypto,Crypto,70.5,71.09,68.67,1898077210,0.36373,4.173985891e+10,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,stellar,Stellar,crypto,Crypto,0.126708,0.129966,0.126374,79459660,-1.84176,4490286891,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,tron,TRON,crypto,Crypto,0.305022,0.306321,0.303102,258257126,-0.01873,2.899980875e+10,,,,,,,,,2026-11-23T01:06:57.000Z
+2026-11-23,tulsa,"Tulsa, OK",weather,Other,,,,,,,45.6,49,10.3,995.7,,,,,2026-11-23T01:00
