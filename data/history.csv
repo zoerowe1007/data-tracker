@@ -215,39 +215,39 @@ date,item_id,item,source,category,price,high,low,volume,change_pct,market_cap,te
 2026-11-26,stellar,Stellar,crypto,Crypto,0.127122,0.130296,0.125564,82615236,0.86905,4512484842,,,,,,,,,2026-11-26T18:23:55.000Z
 2026-11-26,tron,TRON,crypto,Crypto,0.303039,0.304699,0.301595,271476796,-0.46793,2.880609717e+10,,,,,,,,,2026-11-26T18:23:55.000Z
 2026-11-26,tulsa,"Tulsa, OK",weather,Other,,,,,,,42.7,38,14.5,996.7,,,,,2026-11-26T18:15
-2026-11-27,air_albuquerque,"Albuquerque, NM",air,Neighbor states,,,,,,,,,,,57,11.4,13.5,37,2026-11-27T03:00
-2026-11-27,air_austin,"Austin, TX",air,Texas,,,,,,,,,,,29,16.1,16.9,31,2026-11-27T03:00
-2026-11-27,air_elpaso,"El Paso, TX",air,Texas,,,,,,,,,,,56,33.9,36.2,23,2026-11-27T03:00
-2026-11-27,air_kansascity,"Kansas City, MO",air,Neighbor states,,,,,,,,,,,40,9.6,11.2,36,2026-11-27T03:00
-2026-11-27,air_lubbock,"Lubbock, TX",air,Texas,,,,,,,,,,,29,4.4,4.5,47,2026-11-27T03:00
-2026-11-27,air_memphis,"Memphis, TN",air,Neighbor states,,,,,,,,,,,18,1.4,1.5,52,2026-11-27T03:00
-2026-11-27,air_neworleans,"New Orleans, LA",air,Neighbor states,,,,,,,,,,,34,5.2,5.2,64,2026-11-27T03:00
-2026-11-27,air_sanantonio,"San Antonio, TX",air,Texas,,,,,,,,,,,30,15.8,16.2,10,2026-11-27T03:00
-2026-11-27,air_shreveport,"Shreveport, LA",air,Neighbor states,,,,,,,,,,,30,3.9,4,59,2026-11-27T03:00
-2026-11-27,air_springfieldmo,"Springfield, MO",air,Neighbor states,,,,,,,,,,,27,10,10.3,45,2026-11-27T03:00
-2026-11-27,air_waco,"Waco, TX",air,Texas,,,,,,,,,,,29,6.6,7.1,41,2026-11-27T03:00
-2026-11-27,air_wichita,"Wichita, KS",air,Neighbor states,,,,,,,,,,,41,9.1,9.2,31,2026-11-27T03:00
-2026-11-27,arlington,"Arlington, TX",weather,DFW,,,,,,,43.4,57,3.8,999.1,,,,,2026-11-27T03:00
-2026-11-27,avalanche-2,Avalanche,crypto,Crypto,6.73,6.75,6.48,115798560,0.79576,3005968849,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,bentonville,"Bentonville, AR",weather,NWA,,,,,,,32.8,69,6.6,968.3,,,,,2026-11-27T03:00
-2026-11-27,binancecoin,BNB,crypto,Crypto,562.41,563.94,545.2,515512103,0.73672,7.396246908e+10,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,bitcoin,Bitcoin,crypto,Crypto,61486,61678,59942,2.220245102e+10,1.29047,1.236964639e+12,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,cardano,Cardano,crypto,Crypto,0.151371,0.151899,0.146119,221800227,2.11899,5689312615,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,chainlink,Chainlink,crypto,Crypto,9.49,9.55,9.05,232063050,3.4626,7280791804,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,dallas,"Dallas, TX",weather,DFW,,,,,,,43.3,62,4.6,1005.3,,,,,2026-11-27T03:00
-2026-11-27,denton,"Denton, TX",weather,DFW,,,,,,,42.8,53,5.4,997.5,,,,,2026-11-27T03:00
-2026-11-27,dogecoin,Dogecoin,crypto,Crypto,0.057792,0.057808,0.055896,323069609,1.81273,9068206490,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,ethereum,Ethereum,crypto,Crypto,1727.37,1734.25,1669.78,7988890668,1.82067,2.111775831e+11,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,fayetteville,"Fayetteville, AR",weather,NWA,,,,,,,34.9,69,6.9,964.3,,,,,2026-11-27T03:00
-2026-11-27,fortsmith,"Fort Smith, AR",weather,NWA,,,,,,,39.5,47,7.2,1002.5,,,,,2026-11-27T03:00
-2026-11-27,fortworth,"Fort Worth, TX",weather,DFW,,,,,,,42.5,61,2.8,998.1,,,,,2026-11-27T03:00
-2026-11-27,houston,"Houston, TX",weather,Other,,,,,,,44.9,57,4.4,1020.6,,,,,2026-11-27T03:00
-2026-11-27,litecoin,Litecoin,crypto,Crypto,44.54,44.75,42.92,188719673,2.35036,3468621939,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,littlerock,"Little Rock, AR",weather,Other,,,,,,,43.1,55,10.6,1003.7,,,,,2026-11-27T03:00
-2026-11-27,mckinney,"McKinney, TX",weather,DFW,,,,,,,42.2,58,5.6,999.3,,,,,2026-11-27T03:00
-2026-11-27,okc,"Oklahoma City, OK",weather,Other,,,,,,,36.5,68,5.1,974.8,,,,,2026-11-27T03:00
-2026-11-27,ripple,XRP,crypto,Crypto,0.963245,0.964328,0.934505,1230789075,0.75266,6.118207442e+10,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,solana,Solana,crypto,Crypto,72.78,72.77,69.93,1853975249,2.24167,4.310550901e+10,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,stellar,Stellar,crypto,Crypto,0.128854,0.129293,0.125564,74342602,-0.2479,4573548317,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,tron,TRON,crypto,Crypto,0.305236,0.304857,0.301595,256621637,0.55346,2.901545186e+10,,,,,,,,,2026-11-27T03:13:42.000Z
-2026-11-27,tulsa,"Tulsa, OK",weather,Other,,,,,,,36.3,48,4.7,991.7,,,,,2026-11-27T03:00
+2026-11-27,air_albuquerque,"Albuquerque, NM",air,Neighbor states,,,,,,,,,,,53,9.1,10.1,57,2026-11-27T18:00
+2026-11-27,air_austin,"Austin, TX",air,Texas,,,,,,,,,,,58,7.9,9,77,2026-11-27T18:00
+2026-11-27,air_elpaso,"El Paso, TX",air,Texas,,,,,,,,,,,77,11.4,12.8,71,2026-11-27T18:00
+2026-11-27,air_kansascity,"Kansas City, MO",air,Neighbor states,,,,,,,,,,,54,9.8,10.7,44,2026-11-27T18:00
+2026-11-27,air_lubbock,"Lubbock, TX",air,Texas,,,,,,,,,,,28,5.5,6.3,68,2026-11-27T18:00
+2026-11-27,air_memphis,"Memphis, TN",air,Neighbor states,,,,,,,,,,,42,11.6,12.2,52,2026-11-27T18:00
+2026-11-27,air_neworleans,"New Orleans, LA",air,Neighbor states,,,,,,,,,,,35,6.3,6.4,47,2026-11-27T18:00
+2026-11-27,air_sanantonio,"San Antonio, TX",air,Texas,,,,,,,,,,,59,8.2,8.9,84,2026-11-27T18:00
+2026-11-27,air_shreveport,"Shreveport, LA",air,Neighbor states,,,,,,,,,,,22,3.6,4,74,2026-11-27T18:00
+2026-11-27,air_springfieldmo,"Springfield, MO",air,Neighbor states,,,,,,,,,,,53,5.8,7.2,58,2026-11-27T18:00
+2026-11-27,air_waco,"Waco, TX",air,Texas,,,,,,,,,,,31,6.4,7.4,70,2026-11-27T18:00
+2026-11-27,air_wichita,"Wichita, KS",air,Neighbor states,,,,,,,,,,,35,5,5.2,41,2026-11-27T18:00
+2026-11-27,arlington,"Arlington, TX",weather,DFW,,,,,,,61.3,33,9.4,996,,,,,2026-11-27T18:00
+2026-11-27,avalanche-2,Avalanche,crypto,Crypto,6.65,6.81,6.5,132165759,0.24661,2968705356,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,bentonville,"Bentonville, AR",weather,NWA,,,,,,,49.3,48,6.7,967.9,,,,,2026-11-27T18:00
+2026-11-27,binancecoin,BNB,crypto,Crypto,552.51,567.32,543.92,610710493,0.05854,7.266105319e+10,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,bitcoin,Bitcoin,crypto,Crypto,59874,62097,58910,2.996693832e+10,-1.04785,1.204541835e+12,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,cardano,Cardano,crypto,Crypto,0.14934,0.153631,0.14617,235986956,-0.20971,5612968915,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,chainlink,Chainlink,crypto,Crypto,9.37,9.7,9.12,294226440,1.41341,7182231653,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,dallas,"Dallas, TX",weather,DFW,,,,,,,60.7,38,8.9,1002.1,,,,,2026-11-27T18:00
+2026-11-27,denton,"Denton, TX",weather,DFW,,,,,,,60.1,38,10.8,993.4,,,,,2026-11-27T18:00
+2026-11-27,dogecoin,Dogecoin,crypto,Crypto,0.057758,0.059036,0.05625,462181737,1.50438,9063609963,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,ethereum,Ethereum,crypto,Crypto,1670.6,1748.86,1638.36,1.167957794e+10,-1.31612,2.042415586e+11,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,fayetteville,"Fayetteville, AR",weather,NWA,,,,,,,48.1,50,5.6,963.7,,,,,2026-11-27T18:00
+2026-11-27,fortsmith,"Fort Smith, AR",weather,NWA,,,,,,,51.9,41,6.9,1000.8,,,,,2026-11-27T18:00
+2026-11-27,fortworth,"Fort Worth, TX",weather,DFW,,,,,,,60.7,42,8.4,995,,,,,2026-11-27T18:00
+2026-11-27,houston,"Houston, TX",weather,Other,,,,,,,57.5,61,2.2,1020.4,,,,,2026-11-27T18:00
+2026-11-27,litecoin,Litecoin,crypto,Crypto,43.81,44.79,43.01,210040244,1.06946,3411820710,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,littlerock,"Little Rock, AR",weather,Other,,,,,,,57.1,18,7.8,1003.5,,,,,2026-11-27T18:00
+2026-11-27,mckinney,"McKinney, TX",weather,DFW,,,,,,,61.6,31,11.5,995.9,,,,,2026-11-27T18:00
+2026-11-27,okc,"Oklahoma City, OK",weather,Other,,,,,,,53.5,46,9.2,970.1,,,,,2026-11-27T18:00
+2026-11-27,ripple,XRP,crypto,Crypto,0.948235,0.984588,0.933419,1834793553,-0.43813,6.02286872e+10,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,solana,Solana,crypto,Crypto,71.97,73.81,70.38,2767848925,1.22146,4.262084675e+10,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,stellar,Stellar,crypto,Crypto,0.126764,0.130589,0.124611,97983255,-0.10401,4498726847,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,tron,TRON,crypto,Crypto,0.300718,0.306183,0.300384,373512956,-0.70448,2.858635459e+10,,,,,,,,,2026-11-27T18:09:48.000Z
+2026-11-27,tulsa,"Tulsa, OK",weather,Other,,,,,,,53.1,45,7.6,988.7,,,,,2026-11-27T18:00
