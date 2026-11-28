@@ -117,5 +117,22 @@
    "ok": true,
    "count": 12
   }
+ ],
+ "2026-11-28": [
+  {
+   "name": "crypto",
+   "ok": true,
+   "count": 12
+  },
+  {
+   "name": "weather",
+   "ok": true,
+   "count": 12
+  },
+  {
+   "name": "air",
+   "ok": true,
+   "count": 12
+  }
  ]
 }
